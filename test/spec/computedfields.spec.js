@@ -1,13 +1,17 @@
-describe('Give it some context', function() {
-    describe('maybe a bit more context here', function() {
+describe('Backbone.ComputedFields spec', function() {
 
-        it('should run here few assertions', function() {
-            expect(0).to.equal(1);
+    describe('when Backbone.ComputedFields is constructing', function () {
+
+        var computedFields;
+
+        beforeEach(function () {
+            computedFields = new Backbone.ComputedFields();
         });
 
-        it ('should fail some', function () {
-            expect(0).be(100);
+        it ('should exist', function () {
+            expect(computedFields).to.exist;
         });
 
     });
+
 });
