@@ -122,6 +122,10 @@ describe('Backbone.ComputedFields spec', function() {
                 expect(model.get('grossPrice')).to.equal(105);
             });
 
+            it ('dependent field remains the same', function () {
+                expect(model.get('netPrice')).to.equal(100);
+            });
+
         });
 
         describe('netPrice changed', function () {
@@ -133,6 +137,55 @@ describe('Backbone.ComputedFields spec', function() {
             it ('should calculate field value updated', function () {
                 expect(model.get('grossPrice')).to.equal(240);
             });
+
+            it ('dependent field remains the same', function () {
+                expect(model.get('vatRate')).to.equal(20);
+            });
+
+        });
+
+    });
+
+    describe('when calculated field is changed', function () {
+        beforeEach(function () {
+            var Model = Backbone.Model.extend({
+                defaults: {
+                    'netPrice': 0.0,
+                    'vatRate': 0.0
+                },
+
+                initialize: function () {
+                    this.computedFields = new Backbone.ComputedFields(this);
+                },
+
+                grossPrice: {
+                    depends: ['netPrice', 'vatRate'],
+                    get: function (fields) {
+                        return fields.netPrice * (1 + fields.vatRate / 100);
+                    },
+                    set: function (value, fields) {
+                        fields.netPrice = value / (1 + fields.vatRate / 100);
+                    }
+                }
+            });
+
+            model = new Model({ netPrice: 100, vatRate: 20});
+            model.set({ grossPrice: 80 });
+        });
+
+        it ('should updated dependent field', function () {
+            expect(model.get('netPrice')).to.equal(80 / (1 + 20 / 100));
+        });
+
+        it ('should change:grossPrice triggered', function () {
+
+        });
+
+        it ('should change:netPrice triggered', function () {
+
+        });
+
+        it ('should change:vatRate not triggered, since field not changed', function () {
 
         });
 

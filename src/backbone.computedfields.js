@@ -51,37 +51,45 @@
                 var fieldName = computedField.name;
                 var field = computedField.field;
                 
-                var updateAttribute = _.bind(function () {
+                var updateComputedFieldValue = _.bind(function () {
                     this.model.attributes[fieldName] = this._computeFieldValue(field);
                 }, this);
 
-                _.each(field.depends, function (name) {
-                    this.model.on('change:' + name, updateAttribute);
+                var updateDependentFieldsValue = _.bind(function () {
+                    var value = this.model.attributes[fieldName];
+                    var fields = this._dependentFields(field.depends);
+                    
+                    field.set.call(this.model, value, fields);
+                    this.model.set(fields);
                 }, this);
 
-                updateAttribute();
+                // listen to all dependent fields and update attribute value
+                _.each(field.depends, function (name) {
+                    this.model.on('change:' + name, updateComputedFieldValue);
+                }, this);
+
+                // listen to computed field change and update dependent fields
+                this.model.on('change:' + fieldName, updateDependentFieldsValue);
+
+                updateComputedFieldValue();
             }, this);
         },
 
         _computeFieldValue: function (computedField) {
             if (computedField && computedField.get) {
-                var fields = _.reduce(computedField.depends, function (memo, field) {
-                    memo[field] = this.model.attributes[field];
-                    return memo;
-                }, {}, this);
-
+                var fields = this._dependentFields(computedField.depends);
                 return computedField.get.call(this.model, fields);
             }
         },
 
-        computedField: function (attr) {
-            var computedField = _.find(this._computedFields, function (cf) {
-                return cf.name === attr;
-            });
-
-            return computedField && computedField.field;
+        _dependentFields: function (depends) {
+            if (depends) {
+                return _.reduce(depends, function (memo, field) {
+                    memo[field] = this.model.attributes[field];
+                    return memo;
+                }, {}, this);
+            }
         }
-
 
     });
 
