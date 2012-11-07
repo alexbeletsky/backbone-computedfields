@@ -89,63 +89,53 @@ describe('Backbone.ComputedFields spec', function() {
     });
 
 
-    // describe('when Backbone.Model is extened with ComputedFields', function () {
+    describe('when dependent field is changed', function () {
+        beforeEach(function () {
+            var Model = Backbone.Model.extend({
+                defaults: {
+                    'netPrice': 0.0,
+                    'vatRate': 0.0
+                },
 
-    //     var model;
+                initialize: function () {
+                    this.computedFields = new Backbone.ComputedFields(this);
+                },
 
-    //     beforeEach(function () {
-    //         var Model = Backbone.ComputedFields({
-    //             defaults: {
-    //                 'netPrice': 0.0
-    //             }
-    //         });
+                grossPrice: {
+                    depends: ['netPrice', 'vatRate'],
+                    get: function (fields) {
+                        return fields.netPrice * (1 + fields.vatRate / 100);
+                    }
+                }
+            });
 
-    //         model = new Model();
-    //     });
+            model = new Model({ netPrice: 100, vatRate: 20});
+        });
 
-    //     it ('should plain attributes be accessible as before', function () {
-    //         expect(model.get('netPrice')).to.equal(0.0);
-    //     });
+        describe('vatRate changed', function () {
 
-    //     it ('should give undefined for attributes which does not exist', function () {
-    //         expect(model.get('some')).to.not.exist;
-    //     });
+            beforeEach(function () {
+                model.set({vatRate: 5});
+            });
 
+            it ('should calculate field value updated', function () {
+                expect(model.get('grossPrice')).to.equal(105);
+            });
 
-        // describe('when computed fields are used', function () {
+        });
 
-        //     describe('getting values from computed fields', function () {
+        describe('netPrice changed', function () {
 
-        //         beforeEach(function () {
+            beforeEach(function () {
+                model.set({netPrice: 200});
+            });
 
-        //             var Model = Backbone.ComputedFields(Backbone.Model, {
-        //                 defaults: {
-        //                     'netPrice': 0.0,
-        //                     'vatRate': 5
-        //                 },
+            it ('should calculate field value updated', function () {
+                expect(model.get('grossPrice')).to.equal(240);
+            });
 
-        //                 initialize: function () {
-        //                     this.computedField(this.grossPrice);
-        //                 },
+        });
 
-        //                 grossPrice: {
-        //                     depends: ['netPrice', 'vatRate'],
-        //                     get: function (depends) {
-        //                         return depends.netPrice * (1 + 1 / depends.vatRate);
-        //                     }
-        //                 }
-        //             });
-
-        //             model = new Model({ netPrice: 100 });
-        //         });
-
-        //         it ('should get value of computed field', function () {
-        //             expect(model.get('grossPrice')).to.equal(105);
-        //         });
-        //     });
-
-        // });
-
-    // });
+    });
 
 });

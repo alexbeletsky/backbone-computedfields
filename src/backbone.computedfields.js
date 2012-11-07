@@ -48,7 +48,18 @@
 
         _calculateInitialValues: function () {
             _.each(this._computedFields, function (computedField) {
-                this.model.attributes[computedField.name] = this._computeFieldValue(computedField.field);
+                var fieldName = computedField.name;
+                var field = computedField.field;
+                
+                var updateAttribute = _.bind(function () {
+                    this.model.attributes[fieldName] = this._computeFieldValue(field);
+                }, this);
+
+                _.each(field.depends, function (name) {
+                    this.model.on('change:' + name, updateAttribute);
+                }, this);
+
+                updateAttribute();
             }, this);
         },
 
