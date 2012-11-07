@@ -8,7 +8,10 @@
 <body>
   <div id="mocha"></div>
   <script src="lib/mocha/mocha.js"></script>
-  <script>mocha.setup('bdd')</script>
+  <script>
+    mocha.setup('bdd')
+    mocha.setup({ignoreLeaks: true});
+  </script>
 
   <!-- assertion framework -->
   
