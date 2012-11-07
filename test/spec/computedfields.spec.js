@@ -60,6 +60,34 @@ describe('Backbone.ComputedFields spec', function() {
 
     });
 
+    describe('when dependent fields are used', function () {
+        beforeEach(function () {
+            var Model = Backbone.Model.extend({
+                defaults: {
+                    'netPrice': 0.0,
+                    'vatRate': 0.0
+                },
+
+                initialize: function () {
+                    this.computedFields = new Backbone.ComputedFields(this);
+                },
+
+                grossPrice: {
+                    depends: ['netPrice', 'vatRate'],
+                    get: function (fields) {
+                        return fields.netPrice * (1 + fields.vatRate / 100);
+                    }
+                }
+            });
+
+            model = new Model({ netPrice: 100, vatRate: 20});
+        });
+
+        it ('should used dependent fields for calculation', function () {
+            expect(model.get('grossPrice')).to.equal(120);
+        });
+    });
+
 
     // describe('when Backbone.Model is extened with ComputedFields', function () {
 

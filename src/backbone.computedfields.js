@@ -1,3 +1,18 @@
+/*
+
+    1. If computed field is updated, dependent field should be triggered
+        netPrice
+        grossPrice
+
+            setting gross price, silently
+                this.mode.set({grossPrice: 100}, {silent: true});
+                call validation
+                if model is valid
+                this.model.trigger('change:grossPrice', value)
+                    'change:netPrice' should be raised
+
+*/
+
 (function () {
 
     if (!Backbone) {
@@ -39,7 +54,12 @@
         _get: function (attr) {
             var computedField = this.computedField(attr);
             if (computedField && computedField.get) {
-                return computedField.get.apply(this.model, arguments);
+                var fields = _.reduce(computedField.depends, function (memo, field) {
+                    memo[field] = this.model.attributes[field];
+                    return memo;
+                }, {}, this);
+
+                return computedField.get.call(this.model, fields);
             }
 
             return this._originalGet.apply(this.model, arguments);
