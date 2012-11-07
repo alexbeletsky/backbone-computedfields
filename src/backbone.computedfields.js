@@ -33,7 +33,7 @@
             _.bindAll(this);
 
             this._lookUpComputedFields();
-            this._decorateModel();
+            this._calculateInitialValues();
         },
 
         _lookUpComputedFields: function () {
@@ -46,13 +46,13 @@
             }
         },
 
-        _decorateModel: function () {
-            this._originalGet = this.model.get;
-            this.model.get = this._get;
+        _calculateInitialValues: function () {
+            _.each(this._computedFields, function (computedField) {
+                this.model.attributes[computedField.name] = this._computeFieldValue(computedField.field);
+            }, this);
         },
 
-        _get: function (attr) {
-            var computedField = this.computedField(attr);
+        _computeFieldValue: function (computedField) {
             if (computedField && computedField.get) {
                 var fields = _.reduce(computedField.depends, function (memo, field) {
                     memo[field] = this.model.attributes[field];
@@ -61,8 +61,6 @@
 
                 return computedField.get.call(this.model, fields);
             }
-
-            return this._originalGet.apply(this.model, arguments);
         },
 
         computedField: function (attr) {
