@@ -195,5 +195,56 @@ describe('Backbone.ComputedFields spec', function() {
 
     });
 
+    describe ('when model changing it raise proper event', function () {
+        var triggerMethodSpy;
+
+        beforeEach(function () {
+            var Model = Backbone.Model.extend({
+                defaults: {
+                    'netPrice': 0.0,
+                    'vatRate': 0.0
+                },
+
+                initialize: function () {
+                    this.computedFields = new Backbone.ComputedFields(this);
+                },
+
+                grossPrice: {
+                    depends: ['netPrice', 'vatRate'],
+                    get: function (fields) {
+                        return fields.netPrice * (1 + fields.vatRate / 100);
+                    },
+                    set: function (value, fields) {
+                        fields.netPrice = value / (1 + fields.vatRate / 100);
+                    }
+                }
+            });
+
+            model = new Model({ vatRate: 20});
+            triggerMethodSpy = sinon.spy(model, 'trigger');
+        });
+
+        describe('when changing dependet field', function () {
+
+            beforeEach(function () {
+                model.set({ netPrice: 100 });
+            });
+
+            it ('should netPrice change event trigger', function () {
+                // TODO: use other asserstion, to clearly understand failure
+                expect(triggerMethodSpy.calledWith('change:netPrice')).to.be.true;
+            });
+
+            it ('should grossPrice change event trigger', function () {
+                expect(triggerMethodSpy.calledWith('change:grossPrice')).to.be.true;
+            });
+
+            it ('should vatRate still the same', function () {
+                expect(triggerMethodSpy.calledWith('change:vatRate')).to.be.false;
+            });
+        });
+
+    });
+
 
 });

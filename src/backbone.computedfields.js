@@ -52,11 +52,17 @@
                 var field = computedField.field;
                 
                 var updateComputedFieldValue = _.bind(function () {
-                    this.model.attributes[fieldName] = this._computeFieldValue(field);
+                    var value = this._computeFieldValue(field);
+                    this.model.set(fieldName, value, { triggeredBy: 'updateComputedFieldValue' });
                 }, this);
 
-                var updateDependentFieldsValue = _.bind(function () {
-                    var value = this.model.attributes[fieldName];
+                var updateDependentFieldsValue = _.bind(function (model, value, options) {
+                    // if dependent field changed by set in updateComputedFieldValue we'll skip it,
+                    // since it cause cycle
+                    if (options && options.triggeredBy === 'updateComputedFieldValue') {
+                        return;
+                    }
+
                     var fields = this._dependentFields(field.depends);
                     
                     field.set.call(this.model, value, fields);
