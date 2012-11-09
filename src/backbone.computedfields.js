@@ -83,12 +83,10 @@
         },
 
         _dependentFields: function (depends) {
-            if (depends) {
-                return _.reduce(depends, function (memo, field) {
-                    memo[field] = this.model.attributes[field];
-                    return memo;
-                }, {}, this);
-            }
+            return _.reduce(depends, function (memo, field) {
+                memo[field] = this.model.attributes[field];
+                return memo;
+            }, {}, this);
         }
 
     });
