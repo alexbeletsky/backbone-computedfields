@@ -100,7 +100,7 @@ model.get('grossPrice');        // -> 105 is returned
 
 // or
 
-mode.set({netPrice: 120});
+model.set({netPrice: 120});
 model.get('grossPrice');        // -> 126 is returned
 ```
 
@@ -118,7 +118,7 @@ To make views works correctly, it important to keep correct events distribution.
 In case of depended field is changed,
 
 ```js
-mode.set({netPrice: 120});
+model.set({netPrice: 120});
 ```
 
 After that call, several events are triggered - `change:netPrice`, as a reaction of `grossPrice` updated, `change:grossPrice` is triggered.
@@ -153,6 +153,10 @@ grossPrice: {
     toJSON: false
 }
 ```
+
+##More details
+
+Up-to-date and complete documentation is located at [/test/spec/computedfields.spec.js](https://github.com/alexanderbeletsky/backbone.computedfields/blob/master/test/spec/computedfields.spec.js).
 
 ## Versions / Changes
 
