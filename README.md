@@ -93,8 +93,7 @@ In case of depended field is changed,
 ```js
     model.set({vatRate: 5});
     model.get('grossPrice');        // -> 105 is returned
-
-    mode.set({netProce: 120});
+    mode.set({netPrice: 120});
     model.get('grossPrice');        // -> 126 is returned
 ```
 
@@ -105,4 +104,20 @@ In case of calculated field is changed,
     model.get('netPrice');          // -> 100 is returned
 ```
 
-`Backbone.ComputedFields` is responsible for proper event broadcasting.
+##Model events
+
+In case of depended field is changed,
+
+```js
+    mode.set({netPrice: 120});
+```
+
+After that call, several events are triggered - `change:netPrice`, as a reaction of `grossPrice` updated, `change:grossPrice` is triggered.
+
+In case of computed field is changed,
+
+```js
+    model.set({grossPrice: 80});
+```
+
+After that call, several events are triggered - `change:grossPrice`, as a reaction of `netPrice` updated, `change:netPrice` is triggered.

@@ -181,18 +181,6 @@ describe('Backbone.ComputedFields spec', function() {
             expect(model.get('netPrice')).to.equal(80 / (1 + 20 / 100));
         });
 
-        // it ('should change:grossPrice triggered', function () {
-        //     expect(triggerMethodSpy.calledWith('change:grossPrice')).to.be.true;
-        // });
-
-        // it ('should change:netPrice triggered', function () {
-        //     expect(triggerMethodSpy.calledWith('change:netPrice')).to.be.true;
-        // });
-
-        // it ('should change:vatRate not triggered, since field not changed', function () {
-        //     expect(triggerMethodSpy.calledWith('change:vatRate')).to.be.false;
-        // });
-
     });
 
     describe ('when model changing it raise proper event', function () {
@@ -253,6 +241,26 @@ describe('Backbone.ComputedFields spec', function() {
                     expect(triggerMethodSpy.calledWith('change:netPrice')).to.be.false;
                 });
             });
+        });
+
+        describe('when changing calculated field', function () {
+
+            beforeEach(function () {
+                model.set({grossPrice: 80});
+            });
+
+            it ('should grossPrice change event trigger', function () {
+                expect(triggerMethodSpy.calledWith('change:grossPrice')).to.be.true;
+            });
+
+            it('should netPrice change event trigger', function () {
+                expect(triggerMethodSpy.calledWith('change:netPrice')).to.be.true;
+            });
+
+            it ('should vatRate field remains silent', function () {
+                expect(triggerMethodSpy.calledWith('change:vatRate')).to.be.false;
+            });
+
         });
 
     });
