@@ -6,7 +6,7 @@ Inspired by Derik Bailey's [Backbone.Computed](https://github.com/derickbailey/b
 
 Simple implementation of computed (auto, virtual) fields for Backbone.Models, with respect to model state and events firing.
 
-##Samples
+##Quick start
 
 Instantiated in `initialize` method,
 
@@ -33,6 +33,8 @@ Get the value of computed property,
 ```js
 model.get('grossPrice');    // -> 105 is returned
 ```
+
+##Dependent fields
 
 In case that computed field depends on some other models fields,
 
@@ -70,6 +72,8 @@ model = new Model({ netPrice: 100, vatRate: 20});
 model.get('grossPrice')     // -> 120 is returned
 ```
 
+##Setting computed values
+
 Besides of `get` computed field might have `set` method as well. 
 
 ```js
@@ -88,7 +92,7 @@ grossPrice: {
 
 ##Model changes
 
-In case of depended field is changed,
+In case of depended field is changed, computed field is automatically updated
 
 ```js
 model.set({vatRate: 5});
@@ -100,7 +104,7 @@ mode.set({netPrice: 120});
 model.get('grossPrice');        // -> 126 is returned
 ```
 
-In case of calculated field is changed, 
+In case of calculated field is changed, dependent field in automatically updated
 
 ```js
 model.set({grossPrice: 105});
@@ -108,6 +112,8 @@ model.get('netPrice');          // -> 100 is returned
 ```
 
 ##Model events
+
+To make views works correctly, it important to keep correct events distribution.
 
 In case of depended field is changed,
 
