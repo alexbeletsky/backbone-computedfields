@@ -224,7 +224,7 @@ describe('Backbone.ComputedFields spec', function() {
             triggerMethodSpy = sinon.spy(model, 'trigger');
         });
 
-        describe('when changing dependet field', function () {
+        describe('when changing dependent field', function () {
 
             beforeEach(function () {
                 model.set({ netPrice: 100 });
@@ -239,9 +239,23 @@ describe('Backbone.ComputedFields spec', function() {
                 expect(triggerMethodSpy.calledWith('change:grossPrice')).to.be.true;
             });
 
-            it ('should vatRate still the same', function () {
+            it ('should vatRate be silent', function () {
                 expect(triggerMethodSpy.calledWith('change:vatRate')).to.be.false;
             });
+
+            // TODO: Find a way to reset sinon spy, to have fresh state..
+            // describe ('when changing dependent field', function () {
+
+            //     beforeEach (function () {
+                    
+            //         model.set({ vatRate: 5 });
+            //     });
+
+            //     it ('should netPrice be silent', function () {
+            //         // TODO: use other asserstion, to clearly understand failure
+            //         expect(triggerMethodSpy.calledWith('change:netPrice')).to.be.false;
+            //     });
+            // });
         });
 
     });

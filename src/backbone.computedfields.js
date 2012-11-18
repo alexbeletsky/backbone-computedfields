@@ -1,16 +1,5 @@
 /*
-
-    1. If computed field is updated, dependent field should be triggered
-        netPrice
-        grossPrice
-
-            setting gross price, silently
-                this.mode.set({grossPrice: 100}, {silent: true});
-                call validation
-                if model is valid
-                this.model.trigger('change:grossPrice', value)
-                    'change:netPrice' should be raised
-
+    TODO: Place licence
 */
 
 (function () {
