@@ -265,4 +265,74 @@ describe('Backbone.ComputedFields spec', function() {
 
     });
 
+    describe('when model serialized to JSON', function () {
+        var json;
+
+        beforeEach(function () {
+            var Model = Backbone.Model.extend({
+                defaults: {
+                    'netPrice': 0.0,
+                    'vatRate': 0.0
+                },
+
+                initialize: function () {
+                    this.computedFields = new Backbone.ComputedFields(this);
+                },
+
+                grossPrice: {
+                    depends: ['netPrice', 'vatRate'],
+                    get: function (fields) {
+                        return fields.netPrice * (1 + fields.vatRate / 100);
+                    },
+                    set: function (value, fields) {
+                        fields.netPrice = value / (1 + fields.vatRate / 100);
+                    }
+                }
+            });
+
+            model = new Model({ netPrice: 100, vatRate: 20});
+            json = model.toJSON();
+        });
+
+        it ('should computed field be part of JSON by default', function () {
+            expect(json.grossPrice).to.be.ok;
+        });
+
+        describe('when computed is stripped out', function () {
+
+            beforeEach(function () {
+                var Model = Backbone.Model.extend({
+                    defaults: {
+                        'netPrice': 0.0,
+                        'vatRate': 0.0
+                    },
+
+                    initialize: function () {
+                        this.computedFields = new Backbone.ComputedFields(this);
+                    },
+
+                    grossPrice: {
+                        depends: ['netPrice', 'vatRate'],
+                        get: function (fields) {
+                            return fields.netPrice * (1 + fields.vatRate / 100);
+                        },
+                        set: function (value, fields) {
+                            fields.netPrice = value / (1 + fields.vatRate / 100);
+                        },
+                        toJSON: false
+                    }
+                });
+
+                model = new Model({ netPrice: 100, vatRate: 20});
+                json = model.toJSON();
+            });
+
+            it ('should computed field stripped out of JSON', function () {
+                expect(json.grossPrice).to.not.be.ok;
+            });
+
+        });
+
+    });
+
 });

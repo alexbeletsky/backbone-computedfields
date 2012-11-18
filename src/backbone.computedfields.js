@@ -22,7 +22,8 @@
             _.bindAll(this);
 
             this._lookUpComputedFields();
-            this._calculateInitialValues();
+            this._bindModelEvents();
+            this._wrapJSON();
         },
 
         _lookUpComputedFields: function () {
@@ -35,7 +36,7 @@
             }
         },
 
-        _calculateInitialValues: function () {
+        _bindModelEvents: function () {
             _.each(this._computedFields, function (computedField) {
                 var fieldName = computedField.name;
                 var field = computedField.field;
@@ -46,8 +47,7 @@
                 }, this);
 
                 var updateDependentFieldsValue = _.bind(function (model, value, options) {
-                    // if dependent field changed by set in updateComputedFieldValue we'll skip it,
-                    // since it cause cycle
+                    // if dependent field changed by set in updateComputedFieldValue we'll skip it
                     if (options && options.triggeredBy === 'updateComputedFieldValue') {
                         return;
                     }
@@ -68,6 +68,23 @@
 
                 updateComputedFieldValue();
             }, this);
+        },
+
+        _wrapJSON: function () {
+            this.model.toJSON = _.wrap(this.model.toJSON, this._toJSON);
+        },
+
+        _toJSON: function (toJSON) {
+            var attributes = toJSON.call(this.model);
+
+            var stripped = _.reduce(this._computedFields, function (memo, computed) {
+                if (computed.field.toJSON === false) {
+                    memo.push(computed.name);
+                }
+                return memo;
+            },[]);
+
+            return _.omit(attributes, stripped);
         },
 
         _computeFieldValue: function (computedField) {

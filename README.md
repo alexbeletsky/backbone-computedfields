@@ -121,3 +121,6 @@ In case of computed field is changed,
 ```
 
 After that call, several events are triggered - `change:grossPrice`, as a reaction of `netPrice` updated, `change:netPrice` is triggered.
+
+##JSON payload
+
