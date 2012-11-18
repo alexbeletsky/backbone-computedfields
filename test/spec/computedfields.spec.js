@@ -181,17 +181,17 @@ describe('Backbone.ComputedFields spec', function() {
             expect(model.get('netPrice')).to.equal(80 / (1 + 20 / 100));
         });
 
-        it ('should change:grossPrice triggered', function () {
-            expect(triggerMethodSpy.calledWith('change:grossPrice')).to.be.true;
-        });
+        // it ('should change:grossPrice triggered', function () {
+        //     expect(triggerMethodSpy.calledWith('change:grossPrice')).to.be.true;
+        // });
 
-        it ('should change:netPrice triggered', function () {
-            expect(triggerMethodSpy.calledWith('change:netPrice')).to.be.true;
-        });
+        // it ('should change:netPrice triggered', function () {
+        //     expect(triggerMethodSpy.calledWith('change:netPrice')).to.be.true;
+        // });
 
-        it ('should change:vatRate not triggered, since field not changed', function () {
-            expect(triggerMethodSpy.calledWith('change:vatRate')).to.be.false;
-        });
+        // it ('should change:vatRate not triggered, since field not changed', function () {
+        //     expect(triggerMethodSpy.calledWith('change:vatRate')).to.be.false;
+        // });
 
     });
 
@@ -231,7 +231,6 @@ describe('Backbone.ComputedFields spec', function() {
             });
 
             it ('should netPrice change event trigger', function () {
-                // TODO: use other asserstion, to clearly understand failure
                 expect(triggerMethodSpy.calledWith('change:netPrice')).to.be.true;
             });
 
@@ -243,22 +242,19 @@ describe('Backbone.ComputedFields spec', function() {
                 expect(triggerMethodSpy.calledWith('change:vatRate')).to.be.false;
             });
 
-            // TODO: Find a way to reset sinon spy, to have fresh state..
-            // describe ('when changing dependent field', function () {
+            describe ('when changing dependent field', function () {
 
-            //     beforeEach (function () {
-                    
-            //         model.set({ vatRate: 5 });
-            //     });
+                beforeEach (function () {
+                    triggerMethodSpy.reset();
+                    model.set({ vatRate: 5 });
+                });
 
-            //     it ('should netPrice be silent', function () {
-            //         // TODO: use other asserstion, to clearly understand failure
-            //         expect(triggerMethodSpy.calledWith('change:netPrice')).to.be.false;
-            //     });
-            // });
+                it ('should netPrice be silent', function () {
+                    expect(triggerMethodSpy.calledWith('change:netPrice')).to.be.false;
+                });
+            });
         });
 
     });
-
 
 });
