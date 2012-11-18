@@ -1,4 +1,4 @@
-#Backbone.ComputedFields - computed fields for model
+#Backbone.ComputedFields
 
 Inspired by Derik Bailey's [Backbone.Computed](https://github.com/derickbailey/backbone.compute), Backbone.ComputedFields aims the same idea, but polished for real project needs.
 
