@@ -1,5 +1,7 @@
 /*
-    TODO: Place licence
+    Backbone.ComputedFields v.0.0.1
+    (c) 2012 alexander.beletsky@gmail.com
+    Distributed Under MIT License
 */
 
 (function () {
