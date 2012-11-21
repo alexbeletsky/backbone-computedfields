@@ -335,4 +335,45 @@ describe('Backbone.ComputedFields spec', function() {
 
     });
 
+    describe('when ComputedFields initialized in Backbone.Model via Marionette.CollectionView', function () {
+
+          var model, collection, collectionView;
+
+          beforeEach(function () {
+            var Model = Backbone.Model.extend({
+                initialize: function () {
+                    this.computedFields = new Backbone.ComputedFields(this);
+                },
+
+                grossPrice: {
+                    get: function () {
+                      return 100;
+                    }
+                }
+            });
+
+            var Collection = Backbone.Collection.extend({
+                model: Model
+            });
+
+            var CollectionView = Marionette.CollectionView.extend({
+                itemView: Marionette.ItemView
+            });
+
+            model = new Model({ netPrice: 100, vatRate: 5});
+            collection = new Collection([model]);
+            collectionView = new CollectionView({
+                collection: collection
+            });
+        });
+
+        it ('should be initialized', function () {
+            expect(model.computedFields).to.exist;
+            expect(model.computedFields._computedFields.length).to.equal(1);
+        });
+
+        it ('should get value of computed field', function () {
+            expect(model.get('grossPrice')).to.equal(100);
+        });
+    });
 });
