@@ -32,7 +32,8 @@
             for (var obj in this.model) {
                 var field = this.model[obj];
 
-                if (field && (field.set || field.get)) {
+                // TODO: find a better way of computed field detection..
+                if (field && (field.set || field.get) && obj !== 'collection') {
                     this._computedFields.push({name: obj, field: field});
                 }
             }
