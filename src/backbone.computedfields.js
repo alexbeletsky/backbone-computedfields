@@ -32,7 +32,6 @@
             for (var obj in this.model) {
                 var field = this.model[obj];
 
-                // TODO: find a better way of computed field detection..
                 if (field && (field.set || field.get) && obj !== 'collection') {
                     this._computedFields.push({name: obj, field: field});
                 }
@@ -46,31 +45,34 @@
                 
                 var updateComputedFieldValue = _.bind(function () {
                     var value = this._computeFieldValue(field);
-                    this.model.set(fieldName, value, { triggeredBy: 'updateComputedFieldValue' });
+                    this.model.set(fieldName, value, { skipChangeEvent: true });
                 }, this);
 
                 var updateDependentFieldsValue = _.bind(function (model, value, options) {
-                    // if dependent field changed by set in updateComputedFieldValue we'll skip it
-                    if (options && options.triggeredBy === 'updateComputedFieldValue') {
+                    if (options && options.skipChangeEvent) {
                         return;
                     }
 
                     var fields = this._dependentFields(field.depends);
-                    
                     field.set.call(this.model, value, fields);
                     this.model.set(fields);
                 }, this);
 
-                // listen to all dependent fields and update attribute value
-                _.each(field.depends, function (name) {
-                    this.model.on('change:' + name, updateComputedFieldValue);
-                }, this);
-
-                // listen to computed field change and update dependent fields
-                this.model.on('change:' + fieldName, updateDependentFieldsValue);
+                this._thenDependentFieldChanges(field.depends, updateComputedFieldValue);
+                this._thenComputedFieldChanges(fieldName, updateDependentFieldsValue);
 
                 updateComputedFieldValue();
             }, this);
+        },
+
+        _thenDependentFieldChanges: function (depends, callback) {
+            _.each(depends, function (name) {
+                this.model.on('change:' + name, callback);
+            }, this);
+        },
+
+        _thenComputedFieldChanges: function (fieldName, callback) {
+            this.model.on('change:' + fieldName, callback);
         },
 
         _wrapJSON: function () {
