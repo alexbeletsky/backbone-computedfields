@@ -2,10 +2,6 @@
 
 Inspired by Derik Bailey's [Backbone.Computed](https://github.com/derickbailey/backbone.compute), Backbone.ComputedFields aims the same idea, but polished for real project needs.
 
-##Plugin goal
-
-Simple implementation of computed (auto, virtual) fields for Backbone.Models, with respect to model state and events firing.
-
 ##Quick start
 
 Instantiated in `initialize` method,
