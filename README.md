@@ -154,6 +154,37 @@ grossPrice: {
 }
 ```
 
+##Model validation
+
+The same rules as for usual Backbone.js model attributes rules are applied for computed ones. If model contains `validate()` method and invalid is being set, the change would not propagate into model attributes, `error` event is triggered instead.
+
+Say, we have such validation function,
+
+```js
+validate: function (attrs) {
+
+    var errors = [];
+    if (!_.isNumber(attrs.netPrice) || attrs.netPrice < 0) {
+        errors.push('netPrice is invalid');
+    }
+
+    if (!_.isNumber(attrs.grossPrice) || attrs.grossPrice < 0) {
+        errors.push('grossPrice is invalid');
+    }
+
+    return errors.length > 0 ? errors : false;
+}
+```
+
+And change computed field,
+
+```js
+model.set({grossPrice: ''});
+```
+
+The model is will remain in valid state, `{ netPrice: 100, vatRate: 20, grossPrice: 120 }`.
+
+
 ##More details
 
 Up-to-date and complete documentation is located at [/test/spec/computedfields.spec.js](https://github.com/alexanderbeletsky/backbone.computedfields/blob/master/test/spec/computedfields.spec.js).

@@ -184,7 +184,6 @@ describe('Backbone.ComputedFields spec', function() {
     });
 
     describe ('when model changing it raise proper event', function () {
-        var triggerMethodSpy;
 
         beforeEach(function () {
             var Model = Backbone.Model.extend({
@@ -209,7 +208,7 @@ describe('Backbone.ComputedFields spec', function() {
             });
 
             model = new Model({ vatRate: 20});
-            triggerMethodSpy = sinon.spy(model, 'trigger');
+            sinon.spy(model, 'trigger');
         });
 
         describe('when changing dependent field', function () {
@@ -219,26 +218,26 @@ describe('Backbone.ComputedFields spec', function() {
             });
 
             it ('should netPrice change event trigger', function () {
-                expect(triggerMethodSpy.calledWith('change:netPrice')).to.be.true;
+                expect(model.trigger.calledWith('change:netPrice')).to.be.true;
             });
 
             it ('should grossPrice change event trigger', function () {
-                expect(triggerMethodSpy.calledWith('change:grossPrice')).to.be.true;
+                expect(model.trigger.calledWith('change:grossPrice')).to.be.true;
             });
 
             it ('should vatRate be silent', function () {
-                expect(triggerMethodSpy.calledWith('change:vatRate')).to.be.false;
+                expect(model.trigger.calledWith('change:vatRate')).to.be.false;
             });
 
             describe ('when changing dependent field', function () {
 
                 beforeEach (function () {
-                    triggerMethodSpy.reset();
+                    model.trigger.reset();
                     model.set({ vatRate: 5 });
                 });
 
                 it ('should netPrice be silent', function () {
-                    expect(triggerMethodSpy.calledWith('change:netPrice')).to.be.false;
+                    expect(model.trigger.calledWith('change:netPrice')).to.be.false;
                 });
             });
         });
@@ -250,15 +249,15 @@ describe('Backbone.ComputedFields spec', function() {
             });
 
             it ('should grossPrice change event trigger', function () {
-                expect(triggerMethodSpy.calledWith('change:grossPrice')).to.be.true;
+                expect(model.trigger.calledWith('change:grossPrice')).to.be.true;
             });
 
             it('should netPrice change event trigger', function () {
-                expect(triggerMethodSpy.calledWith('change:netPrice')).to.be.true;
+                expect(model.trigger.calledWith('change:netPrice')).to.be.true;
             });
 
             it ('should vatRate field remains silent', function () {
-                expect(triggerMethodSpy.calledWith('change:vatRate')).to.be.false;
+                expect(model.trigger.calledWith('change:vatRate')).to.be.false;
             });
 
         });
@@ -375,4 +374,184 @@ describe('Backbone.ComputedFields spec', function() {
             expect(model.get('grossPrice')).to.equal(200);
         });
     });
+
+    describe('when computed model is validating', function () {
+
+        beforeEach(function () {
+
+            var Model = Backbone.Model.extend({
+                defaults: {
+                    'netPrice': 0.0,
+                    'vatRate': 0.0
+                },
+
+                initialize: function () {
+                    this.computedFields = new Backbone.ComputedFields(this);
+                },
+
+                validate: function (attrs) {
+
+                    var errors = [];
+                    if (!_.isNumber(attrs.netPrice) || attrs.netPrice < 0) {
+                        errors.push('netPrice is invalid');
+                    }
+
+                    if (!_.isNumber(attrs.grossPrice) || attrs.grossPrice < 0) {
+                        errors.push('grossPrice is invalid');
+                    }
+
+                    return errors.length > 0 ? errors : false;
+                },
+
+                grossPrice: {
+                    depends: ['netPrice', 'vatRate'],
+                    get: function (fields) {
+                        return fields.netPrice * (1 + fields.vatRate / 100);
+                    },
+                    set: function (value, fields) {
+                        fields.netPrice = value / (1 + fields.vatRate / 100);
+                    }
+                }
+            });
+
+            model = new Model({ netPrice: 100, vatRate: 20});
+        });
+
+        it ('it should be initially in correct state', function () {
+            expect(model.get('netPrice')).to.equal(100);
+            expect(model.get('grossPrice')).to.equal(120);
+        });
+
+        describe('when computed field set to invalid value', function () {
+
+            beforeEach(function () {
+                model.set({grossPrice: ''});
+            });
+
+            it ('should model be valid', function () {
+                expect(model.isValid()).to.be.true;
+            });
+
+            it ('should computed field remain in valid state', function () {
+                expect(model.get('grossPrice')).to.equal(120);
+            });
+
+            it ('should depends field remain in valid state', function () {
+                expect(model.get('netPrice')).to.equal(100);
+            });
+
+        });
+
+        describe('when depends field set to invalid value', function () {
+
+            beforeEach(function () {
+                model.get({netPrice: ''});
+            });
+
+            it ('should model be valid', function () {
+                expect(model.isValid()).to.be.true;
+            });
+
+            it ('should computed field remain in valid state', function () {
+                expect(model.get('grossPrice')).to.equal(120);
+            });
+
+            it ('should depends field remain in valid state', function () {
+                expect(model.get('netPrice')).to.equal(100);
+            });
+
+        });
+
+    });
+
+    describe('when computed field is validating - silent case', function () {
+
+        beforeEach(function () {
+
+            var Model = Backbone.Model.extend({
+                defaults: {
+                    'netPrice': 0.0,
+                    'vatRate': 0.0
+                },
+
+                initialize: function () {
+                    this.computedFields = new Backbone.ComputedFields(this);
+                },
+
+                validate: function (attrs) {
+
+                    var errors = [];
+                    if (!_.isNumber(attrs.netPrice) || attrs.netPrice < 0) {
+                        errors.push('netPrice is invalid');
+                    }
+
+                    if (!_.isNumber(attrs.grossPrice) || attrs.grossPrice < 0) {
+                        errors.push('grossPrice is invalid');
+                    }
+
+                    return errors.length > 0 ? errors : false;
+                },
+
+                grossPrice: {
+                    depends: ['netPrice', 'vatRate'],
+                    get: function (fields) {
+                        return fields.netPrice * (1 + fields.vatRate / 100);
+                    },
+                    set: function (value, fields) {
+                        fields.netPrice = value / (1 + fields.vatRate / 100);
+                    },
+                    silent: true
+                }
+            });
+
+            model = new Model({ netPrice: 100, vatRate: 20});
+        });
+
+        it ('it should be initially in correct state', function () {
+            expect(model.get('netPrice')).to.equal(100);
+            expect(model.get('grossPrice')).to.equal(120);
+        });
+
+        describe('when computed field set to invalid value', function () {
+
+            beforeEach(function () {
+                model.set({grossPrice: ''});
+            });
+
+            it ('should model be invalid', function () {
+                expect(model.isValid()).to.be.false;
+            });
+
+            it ('should computed field contains invalid value', function () {
+                expect(model.get('grossPrice')).to.equal('');
+            });
+
+            it ('should depends field remain in valid state', function () {
+                expect(model.get('netPrice')).to.equal(100);
+            });
+
+        });
+
+        describe('when depends field set to invalid value', function () {
+
+            beforeEach(function () {
+                model.get({netPrice: ''});
+            });
+
+            it ('should model be invalid', function () {
+                expect(model.isValid()).to.be.false;
+            });
+
+            it ('should computed field remain in valid state', function () {
+                expect(model.get('grossPrice')).to.equal(120);
+            });
+
+            it ('should depends field contain invalid value', function () {
+                expect(model.get('netPrice')).to.equal('');
+            });
+
+        });
+
+    });
+
 });
