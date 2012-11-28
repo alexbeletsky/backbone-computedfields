@@ -183,7 +183,7 @@ The model is will remain in valid state, `{ netPrice: 100, vatRate: 20, grossPri
 
 ##More details
 
-Up-to-date and complete documentation is located at [/test/spec/computedfields.spec.js](https://github.com/alexanderbeletsky/backbone.computedfields/blob/master/test/spec/computedfields.spec.js).
+Up-to-date and complete documentation is located at [/test/spec/backbone.computedfields.spec.js](https://github.com/alexanderbeletsky/backbone.computedfields/blob/master/test/spec/backbone.computedfields.spec.js).
 
 ## Versions / Changes
 
