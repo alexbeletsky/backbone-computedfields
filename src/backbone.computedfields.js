@@ -42,36 +42,36 @@
             _.each(this._computedFields, function (computedField) {
                 var fieldName = computedField.name;
                 var field = computedField.field;
-                
-                var updateComputedFieldValue = _.bind(function () {
+
+                var updateComputed = _.bind(function () {
                     var value = this._computeFieldValue(field);
                     this.model.set(fieldName, value, { skipChangeEvent: true });
                 }, this);
 
-                var updateDependentFieldsValue = _.bind(function (model, value, options) {
+                var updateDependent = _.bind(function (model, value, options) {
                     if (options && options.skipChangeEvent) {
                         return;
                     }
 
                     var fields = this._dependentFields(field.depends);
                     field.set.call(this.model, value, fields);
-                    this.model.set(fields);
+                    this.model.set(fields, options);
                 }, this);
 
-                this._thenDependentFieldChanges(field.depends, updateComputedFieldValue);
-                this._thenComputedFieldChanges(fieldName, updateDependentFieldsValue);
+                this._thenDependentChanges(field.depends, updateComputed);
+                this._thenComputedChanges(fieldName, updateDependent);
 
-                updateComputedFieldValue();
+                updateComputed();
             }, this);
         },
 
-        _thenDependentFieldChanges: function (depends, callback) {
+        _thenDependentChanges: function (depends, callback) {
             _.each(depends, function (name) {
                 this.model.on('change:' + name, callback);
             }, this);
         },
 
-        _thenComputedFieldChanges: function (fieldName, callback) {
+        _thenComputedChanges: function (fieldName, callback) {
             this.model.on('change:' + fieldName, callback);
         },
 

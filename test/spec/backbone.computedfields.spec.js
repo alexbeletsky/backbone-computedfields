@@ -464,94 +464,95 @@ describe('Backbone.ComputedFields spec', function() {
 
     });
 
-    describe('when computed field is validating - silent case', function () {
+    // TODO: need to think about this feature.. ideally it should be done on level of model binder...
+    // describe('when computed field is validating - silent case', function () {
 
-        beforeEach(function () {
+    //     beforeEach(function () {
 
-            var Model = Backbone.Model.extend({
-                defaults: {
-                    'netPrice': 0.0,
-                    'vatRate': 0.0
-                },
+    //         var Model = Backbone.Model.extend({
+    //             defaults: {
+    //                 'netPrice': 0.0,
+    //                 'vatRate': 0.0
+    //             },
 
-                initialize: function () {
-                    this.computedFields = new Backbone.ComputedFields(this);
-                },
+    //             initialize: function () {
+    //                 this.computedFields = new Backbone.ComputedFields(this);
+    //             },
 
-                validate: function (attrs) {
+    //             validate: function (attrs) {
 
-                    var errors = [];
-                    if (!_.isNumber(attrs.netPrice) || attrs.netPrice < 0) {
-                        errors.push('netPrice is invalid');
-                    }
+    //                 var errors = [];
+    //                 if (!_.isNumber(attrs.netPrice) || attrs.netPrice < 0) {
+    //                     errors.push('netPrice is invalid');
+    //                 }
 
-                    if (!_.isNumber(attrs.grossPrice) || attrs.grossPrice < 0) {
-                        errors.push('grossPrice is invalid');
-                    }
+    //                 if (!_.isNumber(attrs.grossPrice) || attrs.grossPrice < 0) {
+    //                     errors.push('grossPrice is invalid');
+    //                 }
 
-                    return errors.length > 0 ? errors : false;
-                },
+    //                 return errors.length > 0 ? errors : false;
+    //             },
 
-                grossPrice: {
-                    depends: ['netPrice', 'vatRate'],
-                    get: function (fields) {
-                        return fields.netPrice * (1 + fields.vatRate / 100);
-                    },
-                    set: function (value, fields) {
-                        fields.netPrice = value / (1 + fields.vatRate / 100);
-                    },
-                    silent: true
-                }
-            });
+    //             grossPrice: {
+    //                 depends: ['netPrice', 'vatRate'],
+    //                 get: function (fields) {
+    //                     return fields.netPrice * (1 + fields.vatRate / 100);
+    //                 },
+    //                 set: function (value, fields) {
+    //                     fields.netPrice = value / (1 + fields.vatRate / 100);
+    //                 },
+    //                 silent: true
+    //             }
+    //         });
 
-            model = new Model({ netPrice: 100, vatRate: 20});
-        });
+    //         model = new Model({ netPrice: 100, vatRate: 20});
+    //     });
 
-        it ('it should be initially in correct state', function () {
-            expect(model.get('netPrice')).to.equal(100);
-            expect(model.get('grossPrice')).to.equal(120);
-        });
+    //     it ('it should be initially in correct state', function () {
+    //         expect(model.get('netPrice')).to.equal(100);
+    //         expect(model.get('grossPrice')).to.equal(120);
+    //     });
 
-        describe('when computed field set to invalid value', function () {
+    //     describe('when computed field set to invalid value', function () {
 
-            beforeEach(function () {
-                model.set({grossPrice: ''});
-            });
+    //         beforeEach(function () {
+    //             model.set({grossPrice: ''});
+    //         });
 
-            it ('should model be invalid', function () {
-                expect(model.isValid()).to.be.false;
-            });
+    //         it ('should model be invalid', function () {
+    //             expect(model.isValid()).to.be.false;
+    //         });
 
-            it ('should computed field contains invalid value', function () {
-                expect(model.get('grossPrice')).to.equal('');
-            });
+    //         it ('should computed field contains invalid value', function () {
+    //             expect(model.get('grossPrice')).to.equal('');
+    //         });
 
-            it ('should depends field remain in valid state', function () {
-                expect(model.get('netPrice')).to.equal(100);
-            });
+    //         it ('should depends field remain in valid state', function () {
+    //             expect(model.get('netPrice')).to.equal(100);
+    //         });
 
-        });
+    //     });
 
-        describe('when depends field set to invalid value', function () {
+    //     describe('when depends field set to invalid value', function () {
 
-            beforeEach(function () {
-                model.get({netPrice: ''});
-            });
+    //         beforeEach(function () {
+    //             model.get({netPrice: ''});
+    //         });
 
-            it ('should model be invalid', function () {
-                expect(model.isValid()).to.be.false;
-            });
+    //         it ('should model be invalid', function () {
+    //             expect(model.isValid()).to.be.false;
+    //         });
 
-            it ('should computed field remain in valid state', function () {
-                expect(model.get('grossPrice')).to.equal(120);
-            });
+    //         it ('should computed field remain in valid state', function () {
+    //             expect(model.get('grossPrice')).to.equal(120);
+    //         });
 
-            it ('should depends field contain invalid value', function () {
-                expect(model.get('netPrice')).to.equal('');
-            });
+    //         it ('should depends field contain invalid value', function () {
+    //             expect(model.get('netPrice')).to.equal('');
+    //         });
 
-        });
+    //     });
 
-    });
+    // });
 
 });
