@@ -1,0 +1,112 @@
+<!doctype html>
+<!--[if lt IE 7]> <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
+<!--[if IE 7]>    <html class="no-js lt-ie9 lt-ie8" lang="en"> <![endif]-->
+<!--[if IE 8]>    <html class="no-js lt-ie9" lang="en"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js" lang="en">
+<!--<![endif]-->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Backbone.ComputedFields - Simple</title>
+    <meta name="backbone.computedfield - simple example" content="">
+    <meta name="viewport" content="width=device-width">
+
+    <link href="css/bootstrap.css" rel="stylesheet">
+    <link href="css/spacing.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+
+    <script src="../jam/jquery/jquery.js"></script>
+    <script src="../jam/underscore/underscore.js"></script>
+    <script src="../jam/backbone/backbone.js"></script>
+    <script src="../src/backbone.computedfields.js"></script>
+
+    <script type="text/javascript">
+        $(function () {
+            var View = Backbone.View.extend({
+
+                className: 'row',
+
+                template: _.template($('#product-form').html()),
+
+                render: function () {
+                    var content = this.template(this.model.toJSON());
+                    this.$el.html(content);
+
+                    return this;
+                }
+
+            });
+
+            var Model = Backbone.Model.extend({
+                defaults: {
+                    'netPrice': 0.0,
+                    'vatRate': 0.0
+                },
+
+                initialize: function () {
+                    this.computedFields = new Backbone.ComputedFields(this);
+                },
+
+                validate: function (attrs) {
+
+                    var errors = [];
+                    if (!_.isNumber(attrs.netPrice) || attrs.netPrice < 0) {
+                        errors.push('netPrice is invalid');
+                    }
+
+                    if (!_.isNumber(attrs.grossPrice) || attrs.grossPrice < 0) {
+                        errors.push('grossPrice is invalid');
+                    }
+
+                    return errors.length > 0 ? errors : false;
+                },
+
+                grossPrice: {
+                    depends: ['netPrice', 'vatRate'],
+                    get: function (fields) {
+                        return fields.netPrice * (1 + fields.vatRate / 100);
+                    },
+                    set: function (value, fields) {
+                        fields.netPrice = value / (1 + fields.vatRate / 100);
+                    }
+                }
+            });
+
+            var model = new Model({ netPrice: 100, vatRate: 20 });
+            var view = new View({ model: model });
+            $('#app').html(view.render().el);
+        });
+    </script>
+
+    <script type="text/html" id="product-form">
+        <form>
+            <legend>Product details</legend>
+            <div class="control-group">
+                <label>Net price</label>
+                <input type="text" id="net-price" value="<%= netPrice %>"/>
+                <span class="help-inline"></span>
+            </div>
+            <div class="control-group">
+                <label>Vat rate</label>
+                <input type="text" id="vat-rate" value="<%= vatRate %>"/>
+                <span class="help-inline"></span>
+            </div>
+            <div class="control-group">
+                <label>Gross price</label>
+                <input type="text" id="gross-price" value="<%= grossPrice %>"/>
+                <span class="help-inline"></span>
+            </div>
+            <button type="submit" id="submit" class="btn">Create product</button>
+        </form>
+    </script>
+
+</head>
+<body>    
+    <div class="container">
+        <div id="app" class="container"></div>
+    </div>
+    <!--[if lt IE 7]><p class=chromeframe>Your browser is <em>ancient!</em> <a href="http://browsehappy.com/">Upgrade to a different browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to experience this site.</p><![endif]-->
+    
+</body>
+</html>

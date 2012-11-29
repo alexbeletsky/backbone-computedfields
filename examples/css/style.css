@@ -1,0 +1,8 @@
+body {
+    padding-top: 20px;
+}
+
+#app {
+    padding: 10px 0 10px 0;
+    min-height: 320px;
+}
