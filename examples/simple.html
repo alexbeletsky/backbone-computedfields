@@ -29,11 +29,61 @@
 
                 template: _.template($('#product-form').html()),
 
+                events: {
+                    'change #grossPrice': 'onGrossPriceChange',
+                    'change #netPrice': 'onNetPriceChange',
+                    'change #vatRate': 'onVatRateChange',
+                    'click #submit': 'onSubmit'
+                },
+
+                initialize: function () {
+                    _.bindAll(this);
+
+                    this.model.on('error', this.modelInvalid);
+                    this.model.on('change:netPrice', this.netPriceChanged);
+                    this.model.on('change:grossPrice', this.grossPriceChanged);
+                },
+
                 render: function () {
                     var content = this.template(this.model.toJSON());
                     this.$el.html(content);
 
                     return this;
+                },
+
+                netPriceChanged: function () {
+                    this.$('#netPrice').val(this.model.get('netPrice'));
+                },
+
+                grossPriceChanged: function () {
+                    this.$('#grossPrice').val(this.model.get('grossPrice'));
+                },
+
+                onGrossPriceChange: function () {
+                    var grossPrice = parseFloat(this.$('#grossPrice').val());
+                    this.model.set({grossPrice: grossPrice});
+                },
+
+                onNetPriceChange: function () {
+                    var netPrice = parseFloat(this.$('#netPrice').val());
+                    this.model.set({netPrice: netPrice});
+                },
+
+                onVatRateChange: function () {
+                    var vatRate = parseFloat(this.$('#vatRate').val());
+                    this.model.set({vatRate: vatRate});
+                },
+
+                onSubmit: function (e) {
+                    e.preventDefault();
+                },
+
+                modelInvalid: function (model, errors) {
+                    _.each(errors, function (error) {
+                        var controlGroup = this.$('.' + error.name);
+                        controlGroup.addClass('error');
+                        controlGroup.find('.help-inline').text(error.message);
+                    }, this);
                 }
 
             });
@@ -51,12 +101,16 @@
                 validate: function (attrs) {
 
                     var errors = [];
-                    if (!_.isNumber(attrs.netPrice) || attrs.netPrice < 0) {
-                        errors.push('netPrice is invalid');
+                    if (_.isNaN(attrs.netPrice) || !_.isNumber(attrs.netPrice) || attrs.netPrice < 0) {
+                        errors.push({ name: 'netPrice', message: 'netPrice is invalid'});
                     }
 
-                    if (!_.isNumber(attrs.grossPrice) || attrs.grossPrice < 0) {
-                        errors.push('grossPrice is invalid');
+                    if (_.isNaN(attrs.vatRate) || !_.isNumber(attrs.vatRate) || (attrs.vatRate < 0 || attrs.vatRate > 100)) {
+                        errors.push({ name: 'vatRate', message: 'vatRate is invalid' });
+                    }
+
+                    if (_.isNaN(attrs.grossPrice) || !_.isNumber(attrs.grossPrice) || attrs.grossPrice < 0) {
+                        errors.push({ name: 'grossPrice', message: 'grossPrice is invalid' });
                     }
 
                     return errors.length > 0 ? errors : false;
@@ -82,19 +136,19 @@
     <script type="text/html" id="product-form">
         <form>
             <legend>Product details</legend>
-            <div class="control-group">
+            <div class="control-group netPrice">
                 <label>Net price</label>
-                <input type="text" id="net-price" value="<%= netPrice %>"/>
+                <input type="text" id="netPrice" value="<%= netPrice %>"/>
                 <span class="help-inline"></span>
             </div>
-            <div class="control-group">
+            <div class="control-group vatRate">
                 <label>Vat rate</label>
-                <input type="text" id="vat-rate" value="<%= vatRate %>"/>
+                <input type="text" id="vatRate" value="<%= vatRate %>"/>
                 <span class="help-inline"></span>
             </div>
-            <div class="control-group">
+            <div class="control-group grossPrice">
                 <label>Gross price</label>
-                <input type="text" id="gross-price" value="<%= grossPrice %>"/>
+                <input type="text" id="grossPrice" value="<%= grossPrice %>"/>
                 <span class="help-inline"></span>
             </div>
             <button type="submit" id="submit" class="btn">Create product</button>
