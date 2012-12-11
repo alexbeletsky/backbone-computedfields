@@ -1,5 +1,5 @@
 /*
-    Backbone.ComputedFields v.0.0.1
+    Backbone.ComputedFields v.0.0.2
     (c) 2012 alexander.beletsky@gmail.com
     Distributed Under MIT License
 */
@@ -17,7 +17,7 @@
         this.initialize();
     };
 
-    ComputedFields.VERSION = '0.0.1';
+    ComputedFields.VERSION = '0.0.2';
 
     _.extend(ComputedFields.prototype, {
         initialize: function () {
@@ -43,9 +43,13 @@
                 var fieldName = computedField.name;
                 var field = computedField.field;
 
+                var updateFunc = field.silent === true ? this._updateSilently : this._updateBySet;
+
                 var updateComputed = _.bind(function () {
                     var value = this._computeFieldValue(field);
-                    this.model.set(fieldName, value, { skipChangeEvent: true });
+                    var updated = {};
+                    updated[fieldName] = value;
+                    updateFunc(updated, { skipChangeEvent: true });
                 }, this);
 
                 var updateDependent = _.bind(function (model, value, options) {
@@ -55,7 +59,7 @@
 
                     var fields = this._dependentFields(field.depends);
                     field.set.call(this.model, value, fields);
-                    this.model.set(fields, options);
+                    updateFunc(fields, options);
                 }, this);
 
                 this._thenDependentChanges(field.depends, updateComputed);
@@ -63,6 +67,15 @@
 
                 updateComputed();
             }, this);
+        },
+
+        _updateSilently: function (changed, options) {
+            this.model.set(changed, { silent: true });
+            this.model.change(options);
+        },
+
+        _updateBySet: function (changed, options) {
+            this.model.set(changed, options);
         },
 
         _thenDependentChanges: function (depends, callback) {
