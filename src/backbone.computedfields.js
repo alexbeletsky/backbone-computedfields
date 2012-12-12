@@ -4,6 +4,8 @@
     Distributed Under MIT License
 
     https://github.com/alexanderbeletsky/backbone.computedfields
+
+    (if you found a bug here, please consider a pull request)
 */
 
 (function () {
@@ -60,11 +62,13 @@
                         return;
                     }
 
-                    var fields = this._dependentFields(field.depends);
-                    value = value || this.model.get(fieldName);
+                    if (field.set) {
+                        var fields = this._dependentFields(field.depends);
+                        value = value || this.model.get(fieldName);
 
-                    field.set.call(this.model, value, fields);
-                    updateFunc(fields, options);
+                        field.set.call(this.model, value, fields);
+                        updateFunc(fields, options);
+                    }
                 }, this);
 
                 this._thenDependentChanges(field.depends, updateComputed);
