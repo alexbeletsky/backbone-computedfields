@@ -77,6 +77,9 @@
         _updateSilently: function (changed, options) {
             this.model.set(changed, { silent: true });
             this.model.validate && this.model.validate(changed);
+            for (var change in changed) {
+                this.model.trigger('change:' + change, this.model, changed[change], options);
+            }
         },
 
         _updateBySet: function (changed, options) {
