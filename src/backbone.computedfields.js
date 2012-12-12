@@ -1,7 +1,9 @@
 /*
-    Backbone.ComputedFields v.0.0.2
+    Backbone.ComputedFields v.0.0.3
     (c) 2012 alexander.beletsky@gmail.com
     Distributed Under MIT License
+
+    https://github.com/alexanderbeletsky/backbone.computedfields
 */
 
 (function () {
@@ -17,7 +19,7 @@
         this.initialize();
     };
 
-    ComputedFields.VERSION = '0.0.2';
+    ComputedFields.VERSION = '0.0.3';
 
     _.extend(ComputedFields.prototype, {
         initialize: function () {
