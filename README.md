@@ -12,12 +12,22 @@ initialize: function () {
 },
 ```
 
-ComputedField is declared as property of model,
+ComputedField is declared as `computed` in model,
 
 ```js
-grossPrice: {
-    get: function () {
-        return 105;
+computed: {
+    
+}
+```
+
+All properties inside are treated as computed fields.
+
+```js
+computed: {
+    grossPrice: {
+        get: function () {
+            return 105;
+        }
     }
 }
 ```
@@ -35,10 +45,12 @@ model.get('grossPrice');    // -> 105 is returned
 In case that computed field depends on some other models fields,
 
 ```js
-grossPrice: {
-    depends: ['netPrice', 'vatRate'],
-    get: function (fields) {
-        return fields.netPrice * (1 + fields.vatRate / 100);
+computed: {
+    grossPrice: {
+        depends: ['netPrice', 'vatRate'],
+        get: function (fields) {
+            return fields.netPrice * (1 + fields.vatRate / 100);
+        }
     }
 }
 ```
@@ -56,10 +68,12 @@ var Model = Backbone.Model.extend({
         this.computedFields = new Backbone.ComputedFields(this);
     },
 
-    grossPrice: {
-        depends: ['netPrice', 'vatRate'],
-        get: function (fields) {
-            return fields.netPrice * (1 + fields.vatRate / 100);
+    computed: {
+        grossPrice: {
+            depends: ['netPrice', 'vatRate'],
+            get: function (fields) {
+                return fields.netPrice * (1 + fields.vatRate / 100);
+            }
         }
     }
 });
@@ -73,13 +87,15 @@ model.get('grossPrice')     // -> 120 is returned
 Besides of `get` computed field might have `set` method as well. 
 
 ```js
-grossPrice: {
-    depends: ['netPrice', 'vatRate'],
-    get: function (fields) {
-        return fields.netPrice * (1 + fields.vatRate / 100);
-    },
-    set: function (value, fields) {
-        fields.netPrice = value / (1 + fields.vatRate / 100);
+computed: {
+    grossPrice: {
+        depends: ['netPrice', 'vatRate'],
+        get: function (fields) {
+            return fields.netPrice * (1 + fields.vatRate / 100);
+        },
+        set: function (value, fields) {
+            fields.netPrice = value / (1 + fields.vatRate / 100);
+        }
     }
 }
 ```
@@ -138,15 +154,17 @@ model.toJSON()          // -> { "netPrice": 100, "grossPrice": 120, "vatRate": 2
 To disable that add `toJSON: false` in computed field declaration,
 
 ```js
-grossPrice: {
-    depends: ['netPrice', 'vatRate'],
-    get: function (fields) {
-        return fields.netPrice * (1 + fields.vatRate / 100);
-    },
-    set: function (value, fields) {
-        fields.netPrice = value / (1 + fields.vatRate / 100);
-    },
-    toJSON: false
+computed: {
+    grossPrice: {
+        depends: ['netPrice', 'vatRate'],
+        get: function (fields) {
+            return fields.netPrice * (1 + fields.vatRate / 100);
+        },
+        set: function (value, fields) {
+            fields.netPrice = value / (1 + fields.vatRate / 100);
+        },
+        toJSON: false
+    }
 }
 ```
 
@@ -187,17 +205,18 @@ Sometimes, it's required to be able to work with computed fields even if model i
 To make this happen, just add `silent` property to computed field.
 
 ```js
-grossPrice: {
-    depends: ['netPrice', 'vatRate'],
-    get: function (fields) {
-        return fields.netPrice * (1 + fields.vatRate / 100);
-    },
-    set: function (value, fields) {
-        fields.netPrice = value / (1 + fields.vatRate / 100);
-    },
-    silent: true
+computed: {
+    grossPrice: {
+        depends: ['netPrice', 'vatRate'],
+        get: function (fields) {
+            return fields.netPrice * (1 + fields.vatRate / 100);
+        },
+        set: function (value, fields) {
+            fields.netPrice = value / (1 + fields.vatRate / 100);
+        },
+        silent: true
+    }
 }
-
 ```
 
 `silent: true` should be usually used if `Backbone.ComputedFields` is used toghether with model binders.
@@ -207,6 +226,10 @@ grossPrice: {
 Up-to-date and complete documentation is located at [/test/spec/backbone.computedfields.spec.js](https://github.com/alexanderbeletsky/backbone.computedfields/blob/master/test/spec/backbone.computedfields.spec.js).
 
 ## Versions / Changes
+
+### v.0.0.3 12 December, 2012
+
+* Breaking change: computed fields are wrapped in `computed` object.
 
 ### v.0.0.2 11 December, 2012
 

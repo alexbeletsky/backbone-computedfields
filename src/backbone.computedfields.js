@@ -29,10 +29,10 @@
         },
 
         _lookUpComputedFields: function () {
-            for (var obj in this.model) {
-                var field = this.model[obj];
+            for (var obj in this.model.computed) {
+                var field = this.model.computed[obj];
 
-                if (field && (field.set || field.get) && obj !== 'collection') {
+                if (field && (field.set || field.get)) {
                     this._computedFields.push({name: obj, field: field});
                 }
             }
@@ -60,7 +60,7 @@
 
                     var fields = this._dependentFields(field.depends);
                     value = value || this.model.get(fieldName);
-                    
+
                     field.set.call(this.model, value, fields);
                     updateFunc(fields, options);
                 }, this);
@@ -74,10 +74,7 @@
 
         _updateSilently: function (changed, options) {
             this.model.set(changed, { silent: true });
-            var errors = this.model.validate && this.model.validate(changed) || false;
-            if (!errors) {
-                this.model.change(options);
-            }
+            this.model.validate && this.model.validate(changed);
         },
 
         _updateBySet: function (changed, options) {

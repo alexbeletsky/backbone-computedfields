@@ -10,9 +10,11 @@ describe('Backbone.ComputedFields spec', function() {
                     this.computedFields = new Backbone.ComputedFields(this);
                 },
 
-                grossPrice: {
-                    get: function () {
-                        return 100;
+                computed: {
+                    grossPrice: {
+                        get: function () {
+                            return 100;
+                        }
                     }
                 }
             });
@@ -44,11 +46,14 @@ describe('Backbone.ComputedFields spec', function() {
                     this.computedFields = new Backbone.ComputedFields(this);
                 },
 
-                grossPrice: {
-                    get: function () {
-                        return 105;
+                computed: {
+                    grossPrice: {
+                        get: function () {
+                            return 105;
+                        }
                     }
                 }
+
             });
 
             model = new Model({ netPrice: 100, vatRate: 5});
@@ -72,10 +77,12 @@ describe('Backbone.ComputedFields spec', function() {
                     this.computedFields = new Backbone.ComputedFields(this);
                 },
 
-                grossPrice: {
-                    depends: ['netPrice', 'vatRate'],
-                    get: function (fields) {
-                        return fields.netPrice * (1 + fields.vatRate / 100);
+                computed: {
+                    grossPrice: {
+                        depends: ['netPrice', 'vatRate'],
+                        get: function (fields) {
+                            return fields.netPrice * (1 + fields.vatRate / 100);
+                        }
                     }
                 }
             });
@@ -101,10 +108,12 @@ describe('Backbone.ComputedFields spec', function() {
                     this.computedFields = new Backbone.ComputedFields(this);
                 },
 
-                grossPrice: {
-                    depends: ['netPrice', 'vatRate'],
-                    get: function (fields) {
-                        return fields.netPrice * (1 + fields.vatRate / 100);
+                computed: {
+                    grossPrice: {
+                        depends: ['netPrice', 'vatRate'],
+                        get: function (fields) {
+                            return fields.netPrice * (1 + fields.vatRate / 100);
+                        }
                     }
                 }
             });
@@ -160,13 +169,15 @@ describe('Backbone.ComputedFields spec', function() {
                     this.computedFields = new Backbone.ComputedFields(this);
                 },
 
-                grossPrice: {
-                    depends: ['netPrice', 'vatRate'],
-                    get: function (fields) {
-                        return fields.netPrice * (1 + fields.vatRate / 100);
-                    },
-                    set: function (value, fields) {
-                        fields.netPrice = value / (1 + fields.vatRate / 100);
+                computed: {
+                    grossPrice: {
+                        depends: ['netPrice', 'vatRate'],
+                        get: function (fields) {
+                            return fields.netPrice * (1 + fields.vatRate / 100);
+                        },
+                        set: function (value, fields) {
+                            fields.netPrice = value / (1 + fields.vatRate / 100);
+                        }
                     }
                 }
             });
@@ -196,13 +207,15 @@ describe('Backbone.ComputedFields spec', function() {
                     this.computedFields = new Backbone.ComputedFields(this);
                 },
 
-                grossPrice: {
-                    depends: ['netPrice', 'vatRate'],
-                    get: function (fields) {
-                        return fields.netPrice * (1 + fields.vatRate / 100);
-                    },
-                    set: function (value, fields) {
-                        fields.netPrice = value / (1 + fields.vatRate / 100);
+                computed: {
+                    grossPrice: {
+                        depends: ['netPrice', 'vatRate'],
+                        get: function (fields) {
+                            return fields.netPrice * (1 + fields.vatRate / 100);
+                        },
+                        set: function (value, fields) {
+                            fields.netPrice = value / (1 + fields.vatRate / 100);
+                        }
                     }
                 }
             });
@@ -278,13 +291,15 @@ describe('Backbone.ComputedFields spec', function() {
                     this.computedFields = new Backbone.ComputedFields(this);
                 },
 
-                grossPrice: {
-                    depends: ['netPrice', 'vatRate'],
-                    get: function (fields) {
-                        return fields.netPrice * (1 + fields.vatRate / 100);
-                    },
-                    set: function (value, fields) {
-                        fields.netPrice = value / (1 + fields.vatRate / 100);
+                computed: {
+                    grossPrice: {
+                        depends: ['netPrice', 'vatRate'],
+                        get: function (fields) {
+                            return fields.netPrice * (1 + fields.vatRate / 100);
+                        },
+                        set: function (value, fields) {
+                            fields.netPrice = value / (1 + fields.vatRate / 100);
+                        }
                     }
                 }
             });
@@ -310,15 +325,17 @@ describe('Backbone.ComputedFields spec', function() {
                         this.computedFields = new Backbone.ComputedFields(this);
                     },
 
-                    grossPrice: {
-                        depends: ['netPrice', 'vatRate'],
-                        get: function (fields) {
-                            return fields.netPrice * (1 + fields.vatRate / 100);
-                        },
-                        set: function (value, fields) {
-                            fields.netPrice = value / (1 + fields.vatRate / 100);
-                        },
-                        toJSON: false
+                    computed: {
+                        grossPrice: {
+                            depends: ['netPrice', 'vatRate'],
+                            get: function (fields) {
+                                return fields.netPrice * (1 + fields.vatRate / 100);
+                            },
+                            set: function (value, fields) {
+                                fields.netPrice = value / (1 + fields.vatRate / 100);
+                            },
+                            toJSON: false
+                        }
                     }
                 });
 
@@ -348,10 +365,12 @@ describe('Backbone.ComputedFields spec', function() {
                     this.computedFields = new Backbone.ComputedFields(this);
                 },
 
-                grossPrice: {
-                    depends: ['netPrice'],
-                    get: function (fields) {
-                      return fields.netPrice * 2;
+                computed: {
+                    grossPrice: {
+                        depends: ['netPrice'],
+                        get: function (fields) {
+                          return fields.netPrice * 2;
+                        }
                     }
                 }
             });
@@ -403,13 +422,15 @@ describe('Backbone.ComputedFields spec', function() {
                     return errors.length > 0 ? errors : false;
                 },
 
-                grossPrice: {
-                    depends: ['netPrice', 'vatRate'],
-                    get: function (fields) {
-                        return fields.netPrice * (1 + fields.vatRate / 100);
-                    },
-                    set: function (value, fields) {
-                        fields.netPrice = value / (1 + fields.vatRate / 100);
+                computed: {
+                    grossPrice: {
+                        depends: ['netPrice', 'vatRate'],
+                        get: function (fields) {
+                            return fields.netPrice * (1 + fields.vatRate / 100);
+                        },
+                        set: function (value, fields) {
+                            fields.netPrice = value / (1 + fields.vatRate / 100);
+                        }
                     }
                 }
             });
@@ -496,15 +517,17 @@ describe('Backbone.ComputedFields spec', function() {
                     return errors.length > 0 ? errors : false;
                 },
 
-                grossPrice: {
-                    depends: ['netPrice', 'vatRate'],
-                    get: function (fields) {
-                        return _.isNull(fields.netPrice) ? null : fields.netPrice * (1 + fields.vatRate / 100);
-                    },
-                    set: function (value, fields) {
-                        fields.netPrice = _.isNull(value) ? null : value / (1 + fields.vatRate / 100);
-                    },
-                    silent: true
+                computed: {
+                    grossPrice: {
+                        depends: ['netPrice', 'vatRate'],
+                        get: function (fields) {
+                            return _.isNull(fields.netPrice) ? null : fields.netPrice * (1 + fields.vatRate / 100);
+                        },
+                        set: function (value, fields) {
+                            fields.netPrice = _.isNull(value) ? null : value / (1 + fields.vatRate / 100);
+                        },
+                        silent: true
+                    }
                 }
             });
 
@@ -603,7 +626,24 @@ describe('Backbone.ComputedFields spec', function() {
 
             });
 
+            describe('when computed field is set silently', function () {
+
+                beforeEach(function () {
+                    model.set({ grossPrice: 100 });
+                });
+
+                beforeEach(function () {
+                    model.set({ grossPrice: null }, { silent: true });
+                });
+
+                it ('should get value', function () {
+                    expect(model.get('grossPrice')).to.equal(null);
+                });
+
+            });
+
         });
+
 
     });
 
