@@ -221,6 +221,23 @@ computed: {
 
 `silent: true` should be usually used if `Backbone.ComputedFields` is used toghether with model binders.
 
+##Dependency function
+
+Computed field might have dependency not only on internal model attributes, but on external objects too. For instance, the product show price depends on currency selected by user in currency widget. Besides properties names, `depends: []` can accept function, that is responsible to fire callback if change occured.
+
+```js
+computed: {
+    grossPrice: {
+        depends: ['netPrice', 'vatRate', function (callback) {
+            this.external.on('change:value', callback);
+        }],
+        get: function (fields) {
+            return this.external.get('value');
+        }
+    }
+}
+```
+
 ##More details
 
 Up-to-date and complete documentation is located at [/test/spec/backbone.computedfields.spec.js](https://github.com/alexanderbeletsky/backbone.computedfields/blob/master/test/spec/backbone.computedfields.spec.js).
@@ -230,6 +247,7 @@ Up-to-date and complete documentation is located at [/test/spec/backbone.compute
 ### v.0.0.3 12 December, 2012
 
 * Breaking change: computed fields are wrapped in `computed` object.
+* Dependency on external object
 
 ### v.0.0.2 11 December, 2012
 

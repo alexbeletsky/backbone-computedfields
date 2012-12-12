@@ -644,6 +644,52 @@ describe('Backbone.ComputedFields spec', function() {
 
         });
 
+    });
+
+    describe ('when depends on external', function () {
+        beforeEach(function () {
+
+            var Model = Backbone.Model.extend({
+                defaults: {
+                    'name': null,
+                    'netPrice': 0.0,
+                    'vatRate': 0.0
+                },
+
+                initialize: function () {
+                    this.external = new Backbone.Model({value: 0});
+                    this.computedFields = new Backbone.ComputedFields(this);
+                },
+
+                computed: {
+                    grossPrice: {
+                        depends: ['netPrice', 'vatRate', function (callback) {
+                            this.external.on('change:value', callback);
+                        }],
+                        get: function (fields) {
+                            return this.external.get('value');
+                        }
+                    }
+                }
+            });
+
+            model = new Model({ netPrice: 100, vatRate: 20 });
+        });
+
+        it ('should have correct external value', function () {
+            expect(model.get('grossPrice')).to.equal(0);
+        });
+
+        describe ('and external changed', function () {
+
+            beforeEach(function () {
+                model.external.set({value: 1});
+            });
+
+            it ('should computed field updated', function () {
+                expect(model.get('grossPrice')).to.equal(1);
+            });
+        });
 
     });
 

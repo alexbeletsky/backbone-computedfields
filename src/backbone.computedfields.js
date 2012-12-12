@@ -85,7 +85,13 @@
 
         _thenDependentChanges: function (depends, callback) {
             _.each(depends, function (name) {
-                this.model.on('change:' + name, callback);
+                if (typeof (name) === 'string') {
+                    this.model.on('change:' + name, callback);
+                }
+
+                if (typeof (name) === 'function') {
+                    name.call(this.model, callback);
+                }
             }, this);
         },
 
