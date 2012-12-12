@@ -143,31 +143,6 @@ model.set({grossPrice: 80});
 
 After that call, several events are triggered - `change:grossPrice`, as a reaction of `netPrice` updated, `change:netPrice` is triggered.
 
-##JSON payload
-
-By default all computed fields are treated as part of JSON payload,
-
-```js
-model.toJSON()          // -> { "netPrice": 100, "grossPrice": 120, "vatRate": 20 };
-```
-
-To disable that add `toJSON: false` in computed field declaration,
-
-```js
-computed: {
-    grossPrice: {
-        depends: ['netPrice', 'vatRate'],
-        get: function (fields) {
-            return fields.netPrice * (1 + fields.vatRate / 100);
-        },
-        set: function (value, fields) {
-            fields.netPrice = value / (1 + fields.vatRate / 100);
-        },
-        toJSON: false
-    }
-}
-```
-
 ##Model validation
 
 The same rules as for usual Backbone.js model attributes rules are applied for computed ones. If model contains `validate()` method and invalid is being set, the change would not propagate into model attributes, `error` event is triggered instead.
@@ -234,6 +209,31 @@ computed: {
         get: function (fields) {
             return this.external.get('value');
         }
+    }
+}
+```
+
+##JSON payload
+
+By default all computed fields are treated as part of JSON payload,
+
+```js
+model.toJSON()          // -> { "netPrice": 100, "grossPrice": 120, "vatRate": 20 };
+```
+
+To disable that add `toJSON: false` in computed field declaration,
+
+```js
+computed: {
+    grossPrice: {
+        depends: ['netPrice', 'vatRate'],
+        get: function (fields) {
+            return fields.netPrice * (1 + fields.vatRate / 100);
+        },
+        set: function (value, fields) {
+            fields.netPrice = value / (1 + fields.vatRate / 100);
+        },
+        toJSON: false
     }
 }
 ```
