@@ -464,7 +464,7 @@ describe('Backbone.ComputedFields spec', function() {
 
     });
 
-    describe('when model with silent update', function () {
+    describe('when model with silent update (how model binders usually work)', function () {
         beforeEach(function () {
 
             var Model = Backbone.Model.extend({
@@ -485,11 +485,11 @@ describe('Backbone.ComputedFields spec', function() {
                         errors.push('name is invalid');
                     }
 
-                    if (!_.isNumber(attrs.netPrice) || attrs.netPrice < 0) {
+                    if (_.isNull(attrs.netPrice) || !_.isNumber(attrs.netPrice) || attrs.netPrice < 0) {
                         errors.push('netPrice is invalid');
                     }
 
-                    if (!_.isNumber(attrs.grossPrice) || attrs.grossPrice < 0) {
+                    if (_.isNull(attrs.grossPrice) || !_.isNumber(attrs.grossPrice) || attrs.grossPrice < 0) {
                         errors.push('grossPrice is invalid');
                     }
 
@@ -499,10 +499,10 @@ describe('Backbone.ComputedFields spec', function() {
                 grossPrice: {
                     depends: ['netPrice', 'vatRate'],
                     get: function (fields) {
-                        return fields.netPrice * (1 + fields.vatRate / 100);
+                        return _.isNull(fields.netPrice) ? null : fields.netPrice * (1 + fields.vatRate / 100);
                     },
                     set: function (value, fields) {
-                        fields.netPrice = value / (1 + fields.vatRate / 100);
+                        fields.netPrice = _.isNull(value) ? null : value / (1 + fields.vatRate / 100);
                     },
                     silent: true
                 }
@@ -519,11 +519,11 @@ describe('Backbone.ComputedFields spec', function() {
 
         });
 
-        describe('and dependent field is changed silently', function () {
+        describe('and dependent field is changed', function () {
 
             beforeEach(function () {
                 model.set({ netPrice: 100 }, { silent: true });
-                model.change();
+                model.trigger('change:netPrice');
             });
 
             it ('should computed be updated', function () {
@@ -533,16 +533,72 @@ describe('Backbone.ComputedFields spec', function() {
             describe('and invalid value is set', function () {
 
                 beforeEach(function () {
-                    model.set({ netPrice: -100 }, { silent: true });
-                    model.change();
+                    model.set({ netPrice: null }, { silent: true });
+                    model.trigger('change:netPrice');
                 });
 
                 it ('should computed be updated', function () {
-                    expect(model.get('grossPrice')).to.equal(-120);
+                    expect(model.get('grossPrice')).to.equal(null);
                 });
 
                 it ('but model is invalid', function () {
                     expect(model.isValid()).to.be.false;
+                });
+
+                describe('and back to valid', function () {
+
+                    beforeEach(function () {
+                        model.set({ netPrice: 100 }, { silent: true });
+                        model.trigger('change:netPrice');
+                    });
+
+                    it ('should computed be updated', function () {
+                        expect(model.get('grossPrice')).to.equal(120);
+                    });
+
+                });
+
+            });
+
+        });
+
+        describe('and computed field is changed', function () {
+
+            beforeEach(function () {
+                model.set({ grossPrice: 100 }, { silent: true });
+                model.trigger('change:grossPrice');
+            });
+
+            it ('should dependent be updated', function () {
+                expect(model.get('netPrice')).to.equal(100 / (1 + 20 / 100));
+            });
+
+            describe('and invalid value is set', function () {
+
+                beforeEach(function () {
+                    model.set({ grossPrice: null }, { silent: true });
+                    model.trigger('change:grossPrice');
+                });
+
+                it ('should dependent be updated', function () {
+                    expect(model.get('netPrice')).to.equal(null);
+                });
+
+                it ('but model is invalid', function () {
+                    expect(model.isValid()).to.be.false;
+                });
+
+                describe('and back to valid', function () {
+
+                    beforeEach(function () {
+                        model.set({ grossPrice: 100 }, { silent: true });
+                        model.trigger('change:grossPrice');
+                    });
+
+                    it ('should computed be updated', function () {
+                        expect(model.get('netPrice')).to.equal(100 / (1 + 20 / 100));
+                    });
+
                 });
 
             });

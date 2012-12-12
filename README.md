@@ -200,6 +200,8 @@ grossPrice: {
 
 ```
 
+`silent: true` should be usually used if `Backbone.ComputedFields` is used toghether with model binders.
+
 ##More details
 
 Up-to-date and complete documentation is located at [/test/spec/backbone.computedfields.spec.js](https://github.com/alexanderbeletsky/backbone.computedfields/blob/master/test/spec/backbone.computedfields.spec.js).
