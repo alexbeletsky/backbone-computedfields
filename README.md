@@ -32,7 +32,7 @@ computed: {
 }
 ```
 
-Each property that declares `get` or `set` method is treaded as computed.
+Each property that declares `get` or `set` method is treated as computed.
 
 Get the value of computed property, 
 
