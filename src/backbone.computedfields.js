@@ -1,11 +1,9 @@
 /*
-    Backbone.ComputedFields v.0.0.3
+    Backbone.ComputedFields v.0.0.4
     (c) 2012 alexander.beletsky@gmail.com
     Distributed Under MIT License
 
     https://github.com/alexanderbeletsky/backbone.computedfields
-
-    (if you found a bug here, please consider a pull request)
 */
 
 (function () {
@@ -21,7 +19,7 @@
         this.initialize();
     };
 
-    ComputedFields.VERSION = '0.0.3';
+    ComputedFields.VERSION = '0.0.4';
 
     _.extend(ComputedFields.prototype, {
         initialize: function () {
@@ -80,7 +78,6 @@
 
         _updateSilently: function (changed, options) {
             this.model.set(changed, { silent: true });
-            this.model.validate && this.model.validate(changed);
             for (var change in changed) {
                 this.model.trigger('change:' + change, this.model, changed[change], options);
             }

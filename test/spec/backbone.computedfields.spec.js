@@ -411,11 +411,11 @@ describe('Backbone.ComputedFields spec', function() {
                 validate: function (attrs) {
 
                     var errors = [];
-                    if (!_.isNumber(attrs.netPrice) || attrs.netPrice < 0) {
+                    if (attrs.netPrice && !_.isNumber(attrs.netPrice) || attrs.netPrice < 0) {
                         errors.push('netPrice is invalid');
                     }
 
-                    if (!_.isNumber(attrs.grossPrice) || attrs.grossPrice < 0) {
+                    if (attrs.grossPrice && !_.isNumber(attrs.grossPrice) || attrs.grossPrice < 0) {
                         errors.push('grossPrice is invalid');
                     }
 
@@ -442,6 +442,8 @@ describe('Backbone.ComputedFields spec', function() {
             expect(model.get('netPrice')).to.equal(100);
             expect(model.get('grossPrice')).to.equal(120);
         });
+
+        /* -- in Backbone 0.9.9 it's not possible to set model to invalid state
 
         describe('when computed field set to invalid value', function () {
 
@@ -482,6 +484,7 @@ describe('Backbone.ComputedFields spec', function() {
             });
 
         });
+    */
 
     });
 
@@ -490,7 +493,6 @@ describe('Backbone.ComputedFields spec', function() {
 
             var Model = Backbone.Model.extend({
                 defaults: {
-                    'name': null,
                     'netPrice': 0.0,
                     'vatRate': 0.0
                 },
@@ -502,15 +504,15 @@ describe('Backbone.ComputedFields spec', function() {
                 validate: function (attrs) {
 
                     var errors = [];
-                    if (_.isNull(attrs.name)) {
+                    if (attrs.name && _.isNull(attrs.name)) {
                         errors.push('name is invalid');
                     }
 
-                    if (_.isNull(attrs.netPrice) || !_.isNumber(attrs.netPrice) || attrs.netPrice < 0) {
+                    if (attrs.netPrice && !_.isNumber(attrs.netPrice) || attrs.netPrice < 0) {
                         errors.push('netPrice is invalid');
                     }
 
-                    if (_.isNull(attrs.grossPrice) || !_.isNumber(attrs.grossPrice) || attrs.grossPrice < 0) {
+                    if (attrs.grossPrice && !_.isNumber(attrs.grossPrice) || attrs.grossPrice < 0) {
                         errors.push('grossPrice is invalid');
                     }
 
@@ -564,10 +566,6 @@ describe('Backbone.ComputedFields spec', function() {
                     expect(model.get('grossPrice')).to.equal(null);
                 });
 
-                it ('but model is invalid', function () {
-                    expect(model.isValid()).to.be.false;
-                });
-
                 describe('and back to valid', function () {
 
                     beforeEach(function () {
@@ -605,10 +603,6 @@ describe('Backbone.ComputedFields spec', function() {
 
                 it ('should dependent be updated', function () {
                     expect(model.get('netPrice')).to.equal(null);
-                });
-
-                it ('but model is invalid', function () {
-                    expect(model.isValid()).to.be.false;
                 });
 
                 describe('and back to valid', function () {
