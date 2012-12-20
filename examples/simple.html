@@ -18,7 +18,7 @@
 
     <script src="../lib/jquery/jquery.js"></script>
     <script src="../lib/underscore/underscore.js"></script>
-    <script src="../lib/backbone-0.9.2/backbone.js"></script>
+    <script src="../lib/backbone-0.9.9/backbone.js"></script>
     <script src="../src/backbone.computedfields.js"></script>
 
     <script type="text/javascript">
@@ -45,7 +45,6 @@
                 },
 
                 render: function () {
-                    debugger;
                     var content = this.template(this.model.toJSON());
                     this.$el.html(content);
 
@@ -100,17 +99,16 @@
                 },
 
                 validate: function (attrs) {
-
                     var errors = [];
-                    if (attrs.netPrice && _.isNaN(attrs.netPrice) || !_.isNumber(attrs.netPrice) || attrs.netPrice < 0) {
+                    if (attrs.netPrice && (_.isNaN(attrs.netPrice) || !_.isNumber(attrs.netPrice) || attrs.netPrice < 0)) {
                         errors.push({ name: 'netPrice', message: 'netPrice is invalid'});
                     }
 
-                    if (attrs.vatRate && _.isNaN(attrs.vatRate) || !_.isNumber(attrs.vatRate) || (attrs.vatRate < 0 || attrs.vatRate > 100)) {
+                    if (attrs.vatRate && (_.isNaN(attrs.vatRate) || !_.isNumber(attrs.vatRate) || (attrs.vatRate < 0 || attrs.vatRate > 100))) {
                         errors.push({ name: 'vatRate', message: 'vatRate is invalid' });
                     }
 
-                    if (attrs.grossPrice && _.isNaN(attrs.grossPrice) || !_.isNumber(attrs.grossPrice) || attrs.grossPrice < 0) {
+                    if (attrs.grossPrice && (_.isNaN(attrs.grossPrice) || !_.isNumber(attrs.grossPrice) || attrs.grossPrice < 0)) {
                         errors.push({ name: 'grossPrice', message: 'grossPrice is invalid' });
                     }
 
@@ -129,8 +127,6 @@
                     }
                 }
             });
-
-            debugger;
 
             var model = new Model({ netPrice: 100, vatRate: 20 });
             var view = new View({ model: model });
