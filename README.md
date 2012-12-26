@@ -173,29 +173,6 @@ model.set({grossPrice: ''});
 
 The model is will remain in valid state, `{ netPrice: 100, vatRate: 20, grossPrice: 120 }`.
 
-##Silent updates
-
-Sometimes, it's required to be able to work with computed fields even if model is not 'yet' in valid state. As examples, we might have a product that requires `name` to be filled, but in the same time be able to change `net` or `gross` price. Since `Backbone.ComputedFields` internally uses `Backbone.Model.set` function, it would prevent to change the model state is it's in invalid state. 
-
-To make this happen, just add `silent` property to computed field.
-
-```js
-computed: {
-    grossPrice: {
-        depends: ['netPrice', 'vatRate'],
-        get: function (fields) {
-            return fields.netPrice * (1 + fields.vatRate / 100);
-        },
-        set: function (value, fields) {
-            fields.netPrice = value / (1 + fields.vatRate / 100);
-        },
-        silent: true
-    }
-}
-```
-
-`silent: true` should be usually used if `Backbone.ComputedFields` is used toghether with model binders.
-
 ##Dependency function
 
 Computed field might have dependency not only on internal model attributes, but on external objects too. For instance, the product show price depends on currency selected by user in currency widget. Besides properties names, `depends: []` can accept function, that is responsible to fire callback if change occured.
@@ -244,9 +221,10 @@ Up-to-date and complete documentation is located at [/test/spec/backbone.compute
 
 ## Versions / Changes
 
-### v.0.0.4 20 December, 2012
+### v.0.0.4 26 December, 2012
 
 * Support for Backbone 0.9.9
+* Removed 'silent' updates, since it's not supported in 0.9.9
 
 ### v.0.0.3 12 December, 2012
 

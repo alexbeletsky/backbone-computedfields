@@ -45,14 +45,12 @@
                 var fieldName = computedField.name;
                 var field = computedField.field;
 
-                var updateFunc = field.silent === true ? this._updateSilently : this._updateBySet;
-
                 var updateComputed = _.bind(function () {
                     var value = this._computeFieldValue(field);
                     var updated = {};
 
                     updated[fieldName] = value;
-                    updateFunc(updated, { skipChangeEvent: true });
+                    this.model.set(updated, { skipChangeEvent: true });
                 }, this);
 
                 var updateDependent = _.bind(function (model, value, options) {
@@ -65,7 +63,7 @@
                         value = value || this.model.get(fieldName);
 
                         field.set.call(this.model, value, fields);
-                        updateFunc(fields, options);
+                        this.model.set(fields, options);
                     }
                 }, this);
 
@@ -74,17 +72,6 @@
 
                 updateComputed();
             }, this);
-        },
-
-        _updateSilently: function (changed, options) {
-            this.model.set(changed, { silent: true });
-            for (var change in changed) {
-                this.model.trigger('change:' + change, this.model, changed[change], options);
-            }
-        },
-
-        _updateBySet: function (changed, options) {
-            this.model.set(changed, options);
         },
 
         _thenDependentChanges: function (depends, callback) {
