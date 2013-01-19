@@ -1,0 +1,15 @@
+{
+  "name"          : "backbone-computed-fields",
+  "description"   : "Computed fields for Backbone models",
+  "keywords"      : ["Backbone", "model", "computed", "field"],
+  "repository"    : "git://github.com/alexanderbeletsky/backbone.computedfields.git",
+  "author"        : "Alexander Beletsky <https://github.com/alexanderbeletsky>",
+  "contributors"  : "Listed at <https://github.com/alexanderbeletsky/backbone.computedfields/contributors>",
+  "dependencies"  : {
+    "underscore": ">=1.4.2",
+    "backbone":   ">=0.9.9"
+  },
+  "lib"           : ".",
+  "main"          : "src/backbone.computedfields.js",
+  "version"       : "0.0.4"
+}
