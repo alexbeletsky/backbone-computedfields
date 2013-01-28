@@ -219,7 +219,7 @@ describe('Backbone.ComputedFields spec', function() {
 
     });
 
-    describe ('when model changing it raise proper event', function () {
+    describe ('when model changing', function () {
 
         beforeEach(function () {
             var Model = Backbone.Model.extend({
@@ -267,6 +267,10 @@ describe('Backbone.ComputedFields spec', function() {
                 expect(model.trigger.calledWith('change:vatRate')).to.equal(false);
             });
 
+            it ('should model change event triggered', function () {
+                expect(model.trigger.calledWith('change')).to.equal(true);
+            });
+
             describe ('when changing dependent field', function () {
 
                 beforeEach (function () {
@@ -296,6 +300,34 @@ describe('Backbone.ComputedFields spec', function() {
 
             it ('should vatRate field remains silent', function () {
                 expect(model.trigger.calledWith('change:vatRate')).to.equal(false);
+            });
+
+            it ('should model change event triggered', function () {
+                expect(model.trigger.calledWith('change')).to.equal(true);
+            });
+
+        });
+
+        describe('when changing ordinar field', function () {
+
+            beforeEach(function () {
+                model.set({name: 'Super Product'});
+            });
+
+            it ('should not grossPrice change event trigger', function () {
+                expect(model.trigger.calledWith('change:grossPrice')).to.equal(false);
+            });
+
+            it('should not netPrice change event trigger', function () {
+                expect(model.trigger.calledWith('change:netPrice')).to.equal(false);
+            });
+
+            it ('should not vatRate field remains silent', function () {
+                expect(model.trigger.calledWith('change:vatRate')).to.equal(false);
+            });
+
+            it ('should model change event triggered', function () {
+                expect(model.trigger.calledWith('change')).to.equal(true);
             });
 
         });
