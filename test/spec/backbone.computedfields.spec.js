@@ -1,6 +1,6 @@
 describe('Backbone.ComputedFields spec', function() {
 
-    describe('when ComputedFields initialized in Backbone.Model', function () {
+    describe('when ComputedFields initialized', function () {
 
         var model;
 
@@ -30,6 +30,32 @@ describe('Backbone.ComputedFields spec', function() {
         it ('should access model attributes', function () {
             expect(model.get('netPrice')).to.equal(100);
             expect(model.get('vatRate')).to.equal(5);
+        });
+
+        describe('when initialize with empty', function () {
+           beforeEach(function () {
+                var Model = Backbone.Model.extend({
+                    initialize: function () {
+                        this.getHasBeenCalled = false;
+                        this.computedFields = new Backbone.ComputedFields(this);
+                    },
+
+                    computed: {
+                        grossPrice: {
+                            get: function () {
+                                debugger;
+                                this.getHasBeenCalled = true;
+                            }
+                        }
+                    }
+                });
+
+                model = new Model();
+            });
+
+            it ('should not call computed field getter', function () {
+                expect(model.getHasBeenCalled).to.equal(false);
+            });
         });
 
     });

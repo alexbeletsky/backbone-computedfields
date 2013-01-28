@@ -47,10 +47,7 @@
 
                 var updateComputed = _.bind(function () {
                     var value = this._computeFieldValue(field);
-                    var updated = {};
-
-                    updated[fieldName] = value;
-                    this.model.set(updated, { skipChangeEvent: true });
+                    this.model.set(fieldName, value, { skipChangeEvent: true });
                 }, this);
 
                 var updateDependent = _.bind(function (model, value, options) {
@@ -70,8 +67,14 @@
                 this._thenDependentChanges(field.depends, updateComputed);
                 this._thenComputedChanges(fieldName, updateDependent);
 
-                updateComputed();
+                if (this._isModelInitialized()) {
+                    updateComputed();
+                }
             }, this);
+        },
+
+        _isModelInitialized: function () {
+            return !_.isEmpty(this.model.attributes);
         },
 
         _thenDependentChanges: function (depends, callback) {
@@ -116,7 +119,7 @@
 
         _dependentFields: function (depends) {
             return _.reduce(depends, function (memo, field) {
-                memo[field] = this.model.attributes[field];
+                memo[field] = this.model.get(field);
                 return memo;
             }, {}, this);
         }
