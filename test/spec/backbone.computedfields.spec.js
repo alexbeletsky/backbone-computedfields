@@ -43,7 +43,6 @@ describe('Backbone.ComputedFields spec', function() {
                     computed: {
                         grossPrice: {
                             get: function () {
-                                debugger;
                                 this.getHasBeenCalled = true;
                             }
                         }
@@ -257,15 +256,15 @@ describe('Backbone.ComputedFields spec', function() {
             });
 
             it ('should netPrice change event trigger', function () {
-                expect(model.trigger.calledWith('change:netPrice')).to.be.true;
+                expect(model.trigger.calledWith('change:netPrice')).to.equal(true);
             });
 
             it ('should grossPrice change event trigger', function () {
-                expect(model.trigger.calledWith('change:grossPrice')).to.be.true;
+                expect(model.trigger.calledWith('change:grossPrice')).to.equal(true);
             });
 
             it ('should vatRate be silent', function () {
-                expect(model.trigger.calledWith('change:vatRate')).to.be.false;
+                expect(model.trigger.calledWith('change:vatRate')).to.equal(false);
             });
 
             describe ('when changing dependent field', function () {
@@ -276,7 +275,7 @@ describe('Backbone.ComputedFields spec', function() {
                 });
 
                 it ('should netPrice be silent', function () {
-                    expect(model.trigger.calledWith('change:netPrice')).to.be.false;
+                    expect(model.trigger.calledWith('change:netPrice')).to.equal(false);
                 });
             });
         });
@@ -288,15 +287,15 @@ describe('Backbone.ComputedFields spec', function() {
             });
 
             it ('should grossPrice change event trigger', function () {
-                expect(model.trigger.calledWith('change:grossPrice')).to.be.true;
+                expect(model.trigger.calledWith('change:grossPrice')).to.equal(true);
             });
 
             it('should netPrice change event trigger', function () {
-                expect(model.trigger.calledWith('change:netPrice')).to.be.true;
+                expect(model.trigger.calledWith('change:netPrice')).to.equal(true);
             });
 
             it ('should vatRate field remains silent', function () {
-                expect(model.trigger.calledWith('change:vatRate')).to.be.false;
+                expect(model.trigger.calledWith('change:vatRate')).to.equal(false);
             });
 
         });
