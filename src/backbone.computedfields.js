@@ -61,6 +61,9 @@
 
                         field.set.call(this.model, value, fields);
                         this.model.set(fields, options);
+                        // this is workaround of issue in BB 0.9.9, already fixed in
+                        // https://github.com/documentcloud/backbone/commit/86a9c538e5b7f88f08ec3e221541fb346f36a022
+                        this.model.trigger('change');
                     }
                 }, this);
 
