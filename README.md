@@ -221,6 +221,10 @@ Up-to-date and complete documentation is located at [/test/spec/backbone.compute
 
 ## Versions / Changes
 
+### v.0.0.5 17 February, 2013
+
+* AMD support added
+
 ### v.0.0.4 26 December, 2012
 
 * Support for Backbone 0.9.9

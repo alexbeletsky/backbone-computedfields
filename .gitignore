@@ -1,2 +1,5 @@
-temp
-dist
+.DS_Store
+*.swp
+*.swo
+node_modules
+_SpecRunner.html

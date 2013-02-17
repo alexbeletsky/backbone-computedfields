@@ -1,16 +1,4 @@
-/*
-    Backbone.ComputedFields v.0.0.4
-    (c) 2012 alexander.beletsky@gmail.com
-    Distributed Under MIT License
-
-    https://github.com/alexanderbeletsky/backbone.computedfields
-*/
-
-(function () {
-
-    if (!Backbone) {
-        throw 'Please include Backbone.js before Backbone.ComputedFields.js';
-    }
+Backbone.ComputedFields = (function(Backbone, _){
 
     var ComputedFields = function (model) {
         this.model = model;
@@ -19,7 +7,7 @@
         this.initialize();
     };
 
-    ComputedFields.VERSION = '0.0.4';
+    ComputedFields.VERSION = '0.0.5';
 
     _.extend(ComputedFields.prototype, {
         initialize: function () {
@@ -126,6 +114,6 @@
 
     });
 
-    Backbone.ComputedFields = ComputedFields;
+    return ComputedFields;
 
-})();
+})(Backbone, _);

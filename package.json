@@ -11,5 +11,10 @@
   },
   "lib"           : ".",
   "main"          : "src/backbone.computedfields.js",
-  "version"       : "0.0.4"
+  "version"       : "0.0.5",
+  "devDependencies": {
+    "grunt": "*",
+    "grunt-jasmine-runner": "latest",
+    "grunt-rigger": "*"
+  }
 }
