@@ -10,7 +10,7 @@ module.exports = function(grunt) {
       banner: '// Backbone.ComputedFields, v<%= meta.version %>\n' +
         '// Copyright (c)<%= grunt.template.today("yyyy") %> alexander.beletsky@gmail.com\n' + 
         '// Distributed under MIT license\n' + 
-        '// http://github.com/alexander.beletsky/backbone.clickdebounce'
+        '// https://github.com/alexanderbeletsky/backbone.computedfields'
     },
 
     lint: {
