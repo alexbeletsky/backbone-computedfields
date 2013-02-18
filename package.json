@@ -15,6 +15,7 @@
   "devDependencies": {
     "grunt": "*",
     "grunt-jasmine-runner": "latest",
-    "grunt-rigger": "*"
+    "grunt-rigger": "*",
+    "grunt-mocha": "~0.1.x"
   }
 }

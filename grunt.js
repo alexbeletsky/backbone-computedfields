@@ -2,6 +2,7 @@
 module.exports = function(grunt) {
 
   grunt.loadNpmTasks('grunt-rigger');
+  grunt.loadNpmTasks('grunt-mocha');
 
   // Project configuration.
   grunt.initConfig({
@@ -15,6 +16,10 @@ module.exports = function(grunt) {
 
     lint: {
       files: ['src/backbone.computedfields*.js']
+    },
+
+    mocha: {
+      all: ['test/index.html']
     },
 
     rig: {
@@ -66,6 +71,6 @@ module.exports = function(grunt) {
   });
 
   // Default task.
-  grunt.registerTask('default', 'lint rig min');
+  grunt.registerTask('default', 'lint mocha rig min');
 
 };
