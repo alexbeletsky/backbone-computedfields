@@ -9,8 +9,11 @@
     "underscore": ">=1.4.2",
     "backbone":   ">=0.9.9"
   },
-  "lib"           : ".",
-  "main"          : "src/backbone.computedfields.js",
+  "scripts": {
+    "test": "grunt mocha"
+  },
+  "lib"           : "./lib",
+  "main"          : "/lib/backbone.computedfields.js",
   "version"       : "0.0.5",
   "devDependencies": {
     "grunt": "*",
