@@ -1,4 +1,4 @@
-#Backbone.ComputedFields [![Build Status](https://secure.travis-ci.org/alexanderbeletsky/backbone-computedfields.png?branch=master)](http://travis-ci.org/alexanderbeletsky/backbone-computedfields)
+#Backbone.ComputedFields [![Build Status](https://secure.travis-ci.org/alexanderbeletsky/backbone.computedfields.png?branch=master)](https://travis-ci.org/alexanderbeletsky/backbone.computedfields)
 
 Inspired by Derik Bailey's [Backbone.Computed](https://github.com/derickbailey/backbone.compute), Backbone.ComputedFields aims the same idea, but polished for real project needs.
 
