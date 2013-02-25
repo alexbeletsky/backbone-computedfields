@@ -16,9 +16,9 @@
   "main"          : "/lib/backbone.computedfields.js",
   "version"       : "0.0.5",
   "devDependencies": {
-    "grunt": "*",
-    "grunt-jasmine-runner": "latest",
+    "grunt": "0.3.x",
     "grunt-rigger": "*",
+    "grunt-simple-mocha": "~0.3.2",
     "grunt-mocha": "~0.1.x"
   }
 }
