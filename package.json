@@ -16,9 +16,11 @@
   "main"          : "/lib/backbone.computedfields.js",
   "version"       : "0.0.5",
   "devDependencies": {
-    "grunt": "0.3.x",
-    "grunt-rigger": "*",
-    "grunt-simple-mocha": "~0.3.2",
-    "grunt-mocha": "~0.1.x"
+    "grunt": "0.4.0",
+    "grunt-contrib-jshint": "~0.3.0",
+    "grunt-contrib-uglify": "~0.2.0",
+    "grunt-mocha": "~0.2.3",
+    "grunt-rigger": "~0.4.0",
+    "grunt-contrib-concat": "~0.1.3"
   }
 }
