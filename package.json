@@ -1,5 +1,5 @@
 {
-  "name"          : "backbone-computed-fields",
+  "name"          : "backbone-computedfields",
   "description"   : "Computed fields for Backbone models",
   "keywords"      : ["Backbone", "model", "computed", "field"],
   "repository"    : "git://github.com/alexanderbeletsky/backbone.computedfields.git",
