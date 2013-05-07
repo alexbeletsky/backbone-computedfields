@@ -1,0 +1,13 @@
+{
+  "name": "backbone-computedfields",
+  "version": "0.0.5",
+  "main": "lib/backbone.computedfields.js",
+  "ignore": [
+    ".jshintrc",
+    "**/*.txt"
+  ],
+  "dependencies"  : {
+    "underscore": ">=1.4.2",
+    "backbone":   ">=0.9.9"
+  }
+}
