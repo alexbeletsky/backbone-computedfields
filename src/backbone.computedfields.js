@@ -11,7 +11,19 @@ Backbone.ComputedFields = (function(Backbone, _){
 
     _.extend(ComputedFields.prototype, {
         initialize: function () {
-            _.bindAll(this);
+            _.bindAll(
+                this,
+                '_bindModelEvents',
+                '_computeFieldValue',
+                '_dependentFields',
+                '_isModelInitialized',
+                '_lookUpComputedFields',
+                '_thenComputedChanges',
+                '_thenDependentChanges',
+                '_toJSON',
+                '_wrapJSON',
+                'initialize'
+            );
 
             this._lookUpComputedFields();
             this._bindModelEvents();
