@@ -215,6 +215,13 @@ computed: {
 }
 ```
 
+If you'd like to force the computed fields into the JSON payload even if the `toJSON` option is `false`, pass 
+`computedFields: true` to the `toJSON` function:
+
+```js
+model.toJSON({ computedFields: true })
+```
+
 ##More details
 
 Up-to-date and complete documentation is located at [/test/spec/backbone.computedfields.spec.js](https://github.com/alexanderbeletsky/backbone.computedfields/blob/master/test/spec/backbone.computedfields.spec.js).
