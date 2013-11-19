@@ -7,8 +7,6 @@ Backbone.ComputedFields = (function(Backbone, _){
         this.initialize();
     };
 
-    ComputedFields.VERSION = '0.0.6';
-
     _.extend(ComputedFields.prototype, {
         initialize: function () {
             _.bindAll(
