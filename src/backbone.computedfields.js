@@ -98,9 +98,11 @@ Backbone.ComputedFields = (function(Backbone, _){
         },
 
         _toJSON: function (toJSON) {
-            var attributes = toJSON.call(this.model);
+            var args = Array.prototype.slice.call(arguments, 1),
+                attributes = toJSON.apply(this.model, args),
+                strip = !!(args[0] || {}).computedFields;
 
-            var stripped = _.reduce(this._computedFields, function (memo, computed) {
+            var stripped = strip ? {} : _.reduce(this._computedFields, function (memo, computed) {
                 if (computed.field.toJSON === false) {
                     memo.push(computed.name);
                 }
