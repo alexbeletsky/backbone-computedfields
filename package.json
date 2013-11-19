@@ -19,7 +19,7 @@
   },
   "lib": "./lib",
   "main": "/lib/backbone.computedfields.js",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "devDependencies": {
     "grunt": "0.4.0",
     "grunt-contrib-jshint": "~0.3.0",

@@ -4,7 +4,7 @@ module.exports = function(grunt) {
   // Project configuration.
   grunt.initConfig({
     meta: {
-      version: '0.0.6',
+      version: '0.0.7',
       source: 'backbone.computedfields.js',
       sourceMin: 'backbone.computedfields.min.js',
       banner: '// Backbone.ComputedFields, v<%= meta.version %>\n' +
