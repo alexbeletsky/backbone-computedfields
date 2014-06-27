@@ -228,6 +228,24 @@ Up-to-date and complete documentation is located at [/test/spec/backbone.compute
 
 ## Versions / Changes
 
+### master
+
+* Remove project version from code
+
+### v.0.0.7 19 November, 2013
+
+* pass toJSON options and add option to included computed fields [#18](https://github.com/alexanderbeletsky/backbone-computedfields/commit/91e31ce4c5264cd8f9d5df1204539055cfb4e369)
+
+### v.0.0.6 23 October, 2013
+
+* Fix project url
+* Fix project npm name
+* Fix compatibility with underscore 1.5.0 [#12](https://github.com/alexanderbeletsky/backbone-computedfields/commit/30f8a25346dbb31665ed1f8defeca794a06bac15) [#15](https://github.com/alexanderbeletsky/backbone-computedfields/commit/2e6dcd4ffe991a7d017e0821dc38cd4198070f04)
+* Use mocha
+* Use travis
+* Update Grunt to ~0.4.0
+* Add bower.json
+
 ### v.0.0.5 17 February, 2013
 
 * AMD support added
