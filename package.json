@@ -8,6 +8,7 @@
     "field"
   ],
   "repository": "git://github.com/alexanderbeletsky/backbone.computedfields.git",
+  "homepage": "https://github.com/alexanderbeletsky/backbone-computedfields",
   "author": "Alexander Beletsky <https://github.com/alexanderbeletsky>",
   "contributors": "Listed at <https://github.com/alexanderbeletsky/backbone.computedfields/contributors>",
   "dependencies": {

@@ -3,14 +3,14 @@ module.exports = function(grunt) {
 
   // Project configuration.
   grunt.initConfig({
+    pkg: grunt.file.readJSON('package.json'),
     meta: {
-      version: '0.0.7',
       source: 'backbone.computedfields.js',
       sourceMin: 'backbone.computedfields.min.js',
-      banner: '// Backbone.ComputedFields, v<%= meta.version %>\n' +
+      banner: '// Backbone.ComputedFields, v<%= pkg.version %>\n' +
         '// Copyright (c)<%= grunt.template.today("yyyy") %> alexander.beletsky@gmail.com\n' +
         '// Distributed under MIT license\n' +
-        '// https://github.com/alexanderbeletsky/backbone.computedfields\n'
+        '// <%= pkg.homepage %>\n\n'
     },
 
     mocha: {
