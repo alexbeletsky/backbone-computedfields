@@ -1,6 +1,10 @@
 ## Versions / Changes
 
-### master
+### v.0.0.9
+
+* Corrected for `browserify` usage
+
+### v.0.0.8
 
 * Remove project version from code
 
