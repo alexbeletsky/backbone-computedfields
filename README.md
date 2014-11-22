@@ -1,6 +1,6 @@
 #Backbone.ComputedFields [![Build Status](https://secure.travis-ci.org/alexanderbeletsky/backbone.computedfields.png?branch=master)](https://travis-ci.org/alexanderbeletsky/backbone.computedfields)
 
-Inspired by Derik Bailey's [Backbone.Computed](https://github.com/derickbailey/backbone.compute), Backbone.ComputedFields aims the same idea, but polished for real project needs.
+Inspired by Derik Bailey's [Backbone.Computed](https://github.com/derickbailey/backbone.compute), Backbone.ComputedFields aims the same goal, but polished for real project needs.
 
 ##Quick start
 
@@ -16,7 +16,7 @@ ComputedField is declared as `computed` in model,
 
 ```js
 computed: {
-    
+
 }
 ```
 
@@ -34,7 +34,7 @@ computed: {
 
 Each property that declares `get` or `set` method is treated as computed.
 
-Get the value of computed property, 
+Get the value of computed property,
 
 ```js
 model.get('grossPrice');    // -> 105 is returned
@@ -84,7 +84,7 @@ model.get('grossPrice')     // -> 120 is returned
 
 ##Setting computed values
 
-Besides of `get` computed field might have `set` method as well. 
+Besides of `get` computed field might have `set` method as well.
 
 ```js
 computed: {
@@ -215,7 +215,7 @@ computed: {
 }
 ```
 
-If you'd like to force the computed fields into the JSON payload even if the `toJSON` option is `false`, pass 
+If you'd like to force the computed fields into the JSON payload even if the `toJSON` option is `false`, pass
 `computedFields: true` to the `toJSON` function:
 
 ```js
@@ -225,49 +225,6 @@ model.toJSON({ computedFields: true })
 ##More details
 
 Up-to-date and complete documentation is located at [/test/spec/backbone.computedfields.spec.js](https://github.com/alexanderbeletsky/backbone.computedfields/blob/master/test/spec/backbone.computedfields.spec.js).
-
-## Versions / Changes
-
-### master
-
-* Remove project version from code
-
-### v.0.0.7 19 November, 2013
-
-* pass toJSON options and add option to included computed fields [#18](https://github.com/alexanderbeletsky/backbone-computedfields/commit/91e31ce4c5264cd8f9d5df1204539055cfb4e369)
-
-### v.0.0.6 23 October, 2013
-
-* Fix project url
-* Fix project npm name
-* Fix compatibility with underscore 1.5.0 [#12](https://github.com/alexanderbeletsky/backbone-computedfields/commit/30f8a25346dbb31665ed1f8defeca794a06bac15) [#15](https://github.com/alexanderbeletsky/backbone-computedfields/commit/2e6dcd4ffe991a7d017e0821dc38cd4198070f04)
-* Use mocha
-* Use travis
-* Update Grunt to ~0.4.0
-* Add bower.json
-
-### v.0.0.5 17 February, 2013
-
-* AMD support added
-
-### v.0.0.4 26 December, 2012
-
-* Support for Backbone 0.9.9
-* Removed 'silent' updates, since it's not supported in 0.9.9
-
-### v.0.0.3 12 December, 2012
-
-* Breaking change: computed fields are wrapped in `computed` object.
-* Dependency on external object
-
-### v.0.0.2 11 December, 2012
-
-* Silent fields implemented
-* Several bug fixes
-
-### v.0.0.1 18 November, 2012
-
-* Initial version: basic functions, events
 
 # Legal Info (MIT License)
 
