@@ -55,7 +55,7 @@ computed: {
 }
 ```
 
-Add `depends` object into computed field object, as array of dependent fields. Dependent fields are injected into correspoding `get` method, by passing initialized `fields` object inside,
+Add `depends` object into computed field object, as array of dependent fields. Dependent fields are injected into corresponding `get` method, by passing initialized `fields` object inside,
 
 ```js
 var Model = Backbone.Model.extend({
@@ -100,7 +100,7 @@ computed: {
 }
 ```
 
-`set` function recieves the `fields` object, with same names of properties as model attributes. If `set` function changes the value of property, the change is propogated to model. Typically, you should change only one field in `set` method.
+`set` function receives the `fields` object, with same names of properties as model attributes. If `set` function changes the value of property, the change is propagated to model. Typically, you should change only one field in `set` method.
 
 ##Model changes
 
@@ -175,7 +175,7 @@ The model is will remain in valid state, `{ netPrice: 100, vatRate: 20, grossPri
 
 ##Dependency function
 
-Computed field might have dependency not only on internal model attributes, but on external objects too. For instance, the product show price depends on currency selected by user in currency widget. Besides properties names, `depends: []` can accept function, that is responsible to fire callback if change occured.
+Computed field might have dependency not only on internal model attributes, but on external objects too. For instance, the product show price depends on currency selected by user in currency widget. Besides properties names, `depends: []` can accept function, that is responsible to fire callback if change occurred.
 
 ```js
 computed: {
