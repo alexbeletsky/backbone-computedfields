@@ -12,8 +12,8 @@
   "author": "Alexander Beletsky <https://github.com/alexanderbeletsky>",
   "contributors": "Listed at <https://github.com/alexanderbeletsky/backbone.computedfields/contributors>",
   "dependencies": {
-    "underscore": "~1.5.2",
-    "backbone": "~1.1.0"
+    "underscore": "^1.5.2",
+    "backbone": "^1.1.0"
   },
   "scripts": {
     "test": "grunt mocha"
