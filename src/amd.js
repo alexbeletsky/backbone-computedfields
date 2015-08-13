@@ -10,11 +10,10 @@
 
     define(['underscore', 'backbone'], factory);
 
-  } 
+  }
 }(this, function (_, Backbone) {
 
   //= backbone.computedfields.js
-  return Backbone.ComputedFields; 
+  return Backbone.ComputedFields;
 
 }));
-
