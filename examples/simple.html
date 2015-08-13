@@ -16,9 +16,9 @@
     <link href="css/spacing.css" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet">
 
-    <script src="../lib/jquery/jquery.js"></script>
-    <script src="../lib/underscore/underscore.js"></script>
-    <script src="../lib/backbone-0.9.9/backbone.js"></script>
+    <script src="../node_modules/jquery/dist/jquery.js"></script>
+    <script src="../node_modules/underscore/underscore.js"></script>
+    <script src="../node_modules/backbone/backbone.js"></script>
     <script src="../src/backbone.computedfields.js"></script>
 
     <script type="text/javascript">
@@ -37,7 +37,12 @@
                 },
 
                 initialize: function () {
-                    _.bindAll(this);
+                    _.bindAll(
+                        this,
+                        'modelInvalid',
+                        'netPriceChanged',
+                        'grossPriceChanged'
+                    );
 
                     this.model.on('error', this.modelInvalid);
                     this.model.on('change:netPrice', this.netPriceChanged);
@@ -157,11 +162,11 @@
     </script>
 
 </head>
-<body>    
+<body>
     <div class="container">
         <div id="app" class="container"></div>
     </div>
     <!--[if lt IE 7]><p class=chromeframe>Your browser is <em>ancient!</em> <a href="http://browsehappy.com/">Upgrade to a different browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to experience this site.</p><![endif]-->
-    
+
 </body>
 </html>
