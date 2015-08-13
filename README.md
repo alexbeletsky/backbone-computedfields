@@ -1,7 +1,6 @@
 [![Build Status](https://travis-ci.org/alexbeletsky/backbone-computedfields.svg?branch=master)](https://travis-ci.org/alexbeletsky/backbone-computedfields)
-[![Code Climate](https://codeclimate.com/github/alexbeletsky/backbone-computedfields/badges/gpa.svg)](https://codeclimate.com/github/alexbeletsky/backbone-computedfields)
 [![Dependency Status](https://david-dm.org/alexbeletsky/backbone-computedfields.svg)](https://david-dm.org/alexbeletsky/backbone-computedfields)
-[![devDependency Status](https://david-dm.org/alexbeletsky/backbone-computedfields/dev-status.svg)](https://david-dm.org/alexbeletsky/backbone-computedfields#info=devDependencie
+[![devDependency Status](https://david-dm.org/alexbeletsky/backbone-computedfields/dev-status.svg)](https://david-dm.org/alexbeletsky/backbone-computedfields#info=devDependencies)
 
 #Backbone.ComputedFields
 
