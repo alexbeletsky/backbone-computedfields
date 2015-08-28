@@ -1,5 +1,14 @@
 Backbone.ComputedFields = (function(Backbone, _){
 
+    var _isFunction = function(obj) {
+        // == instead of === and || false are optimizations
+        // to go around nasty bugs in IE11, Safari 8 and old v8
+        // see underscore#isFunction
+        /* jshint eqeqeq: false */
+        return typeof obj == 'function' || false;
+        /* jshint eqeqeq: true */
+    };
+
     var ComputedFields = function (model) {
         this.model = model;
         this._computedFields = [];
@@ -29,8 +38,10 @@ Backbone.ComputedFields = (function(Backbone, _){
         },
 
         _lookUpComputedFields: function () {
-            for (var obj in this.model.computed) {
-                var field = this.model.computed[obj];
+            var computed = _isFunction(this.model.computed) ? this.model.computed() : this.model.computed;
+
+            for (var obj in computed) {
+                var field = computed[obj];
 
                 if (field && (field.set || field.get)) {
                     this._computedFields.push({name: obj, field: field});
