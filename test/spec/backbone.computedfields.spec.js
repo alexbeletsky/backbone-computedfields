@@ -59,6 +59,69 @@ describe('Backbone.ComputedFields spec', function() {
 
     });
 
+    describe('when ComputedFields initialized and computed is a function', function () {
+
+        var model;
+
+        beforeEach(function () {
+            var Model = Backbone.Model.extend({
+                initialize: function () {
+                    this.computedFields = new Backbone.ComputedFields(this);
+                },
+
+                computed: function() {
+                    return {
+                        grossPrice: {
+                            get: function () {
+                                return 100;
+                            }
+                        }
+                    };
+                }
+            });
+
+            model = new Model({ netPrice: 100, vatRate: 5});
+        });
+
+        it ('should be initialized', function () {
+            expect(model.computedFields).to.exist;
+            expect(model.computedFields._computedFields.length).to.equal(1);
+        });
+
+        it ('should access model attributes', function () {
+            expect(model.get('netPrice')).to.equal(100);
+            expect(model.get('vatRate')).to.equal(5);
+        });
+
+        describe('when initialize with empty', function () {
+           beforeEach(function () {
+                var Model = Backbone.Model.extend({
+                    initialize: function () {
+                        this.getHasBeenCalled = false;
+                        this.computedFields = new Backbone.ComputedFields(this);
+                    },
+
+                    computed: function() {
+                        return {
+                            grossPrice: {
+                                get: function () {
+                                    this.getHasBeenCalled = true;
+                                }
+                            }
+                        };
+                    }
+                });
+
+                model = new Model();
+            });
+
+            it ('should not call computed field getter', function () {
+                expect(model.getHasBeenCalled).to.equal(false);
+            });
+        });
+
+    });
+
     describe('when ComputedFields are used', function () {
         beforeEach(function () {
             var Model = Backbone.Model.extend({

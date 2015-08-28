@@ -38,6 +38,20 @@ computed: {
 }
 ```
 
+`computed` can also be a function returning an object.
+
+```js
+computed: function() {
+    return {
+        grossPrice: {
+            get: function () {
+                return 105;
+            }
+        }
+    };
+}
+```
+
 Each property that declares `get` or `set` method is treated as computed.
 
 Get the value of computed property,
