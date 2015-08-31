@@ -25,7 +25,8 @@
 		"__dirname",
 		"Buffer",
 		"define",
-		"Backbone"
+		"Backbone",
+		"_"
 	],
 
 	"asi" : false,
