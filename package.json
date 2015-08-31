@@ -20,7 +20,7 @@
   },
   "lib": "./lib",
   "main": "./lib/amd/backbone.computedfields.js",
-  "version": "0.0.11",
+  "version": "0.0.12",
   "devDependencies": {
     "grunt": "^0.4.5",
     "grunt-contrib-concat": "^0.5.1",
