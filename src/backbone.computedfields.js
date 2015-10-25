@@ -121,7 +121,9 @@ Backbone.ComputedFields = (function(Backbone, _){
 
         _dependentFields: function (depends) {
             return _.reduce(depends, function (memo, field) {
-                memo[field] = this.model.get(field);
+                if (_.isString(field)) {
+                    memo[field] = this.model.get(field);
+                }
                 return memo;
             }, {}, this);
         }
