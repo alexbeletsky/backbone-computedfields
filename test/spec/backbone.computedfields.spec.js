@@ -647,6 +647,15 @@ describe('Backbone.ComputedFields spec', function() {
                 expect(model.get('grossPrice')).to.equal(1);
             });
         });
+        
+        it ('should not pass the depends function as a field', function() {
+            var computedDef = model.computed.grossPrice;
+            var dependsFunction = computedDef.depends[2];
+
+            sinon.spy(computedDef, 'get');
+            model.set('netPrice', '100');
+            expect(computedDef.get.firstCall.args[0]).to.not.contain.key(dependsFunction.toString());
+        });
 
     });
 
