@@ -123,6 +123,9 @@ describe('Backbone.ComputedFields spec', function() {
     });
 
     describe('when ComputedFields are used', function () {
+
+        var model;
+
         beforeEach(function () {
             var Model = Backbone.Model.extend({
                 defaults: {
@@ -154,6 +157,9 @@ describe('Backbone.ComputedFields spec', function() {
     });
 
     describe('when dependent fields are used', function () {
+
+        var model;
+
         beforeEach(function () {
             var Model = Backbone.Model.extend({
                 defaults: {
@@ -185,6 +191,9 @@ describe('Backbone.ComputedFields spec', function() {
 
 
     describe('when dependent field is changed', function () {
+
+        var model;
+
         beforeEach(function () {
             var Model = Backbone.Model.extend({
                 defaults: {
@@ -244,7 +253,8 @@ describe('Backbone.ComputedFields spec', function() {
     });
 
     describe('when calculated field is changed', function () {
-        var triggerMethodSpy;
+
+        var triggerMethodSpy, model;
 
         beforeEach(function () {
             var Model = Backbone.Model.extend({
@@ -283,6 +293,8 @@ describe('Backbone.ComputedFields spec', function() {
     });
 
     describe ('when model changing', function () {
+
+        var model;
 
         beforeEach(function () {
             var Model = Backbone.Model.extend({
@@ -398,7 +410,8 @@ describe('Backbone.ComputedFields spec', function() {
     });
 
     describe('when model serialized to JSON', function () {
-        var json;
+
+        var json, model;
 
         beforeEach(function () {
             var Model = Backbone.Model.extend({
@@ -511,7 +524,7 @@ describe('Backbone.ComputedFields spec', function() {
 
     describe('when ComputedFields initialized in Backbone.Model via Backbone.Collection', function () {
 
-          var model, collection, collectionView;
+          var model, collection;
 
           beforeEach(function () {
             var Model = Backbone.Model.extend({
@@ -553,6 +566,8 @@ describe('Backbone.ComputedFields spec', function() {
     });
 
     describe('when computed model is validating', function () {
+
+        var model;
 
         beforeEach(function () {
 
@@ -604,6 +619,9 @@ describe('Backbone.ComputedFields spec', function() {
     });
 
     describe ('when depends on external', function () {
+
+        var model;
+
         beforeEach(function () {
 
             var Model = Backbone.Model.extend({
@@ -647,7 +665,7 @@ describe('Backbone.ComputedFields spec', function() {
                 expect(model.get('grossPrice')).to.equal(1);
             });
         });
-        
+
         it ('should not pass the depends function as a field', function() {
             var computedDef = model.computed.grossPrice;
             var dependsFunction = computedDef.depends[2];
