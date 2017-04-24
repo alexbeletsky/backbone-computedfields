@@ -2,13 +2,13 @@
 [![Dependency Status](https://david-dm.org/alexbeletsky/backbone-computedfields.svg)](https://david-dm.org/alexbeletsky/backbone-computedfields)
 [![devDependency Status](https://david-dm.org/alexbeletsky/backbone-computedfields/dev-status.svg)](https://david-dm.org/alexbeletsky/backbone-computedfields#info=devDependencies)
 
-#Backbone.ComputedFields
+# Backbone.ComputedFields
 
 <!-- [![Build Status](https://secure.travis-ci.org/alexanderbeletsky/backbone.computedfields.png?branch=master)](https://travis-ci.org/alexanderbeletsky/backbone.computedfields) -->
 
 Inspired by Derik Bailey's [Backbone.Computed](https://github.com/derickbailey/backbone.compute), Backbone.ComputedFields aims the same goal, but polished for real project needs.
 
-##Quick start
+## Quick start
 
 Instantiated in `initialize` method,
 
@@ -60,7 +60,7 @@ Get the value of computed property,
 model.get('grossPrice');    // -> 105 is returned
 ```
 
-##Dependent fields
+## Dependent fields
 
 In case that computed field depends on some other models fields,
 
@@ -102,7 +102,7 @@ model = new Model({ netPrice: 100, vatRate: 20});
 model.get('grossPrice')     // -> 120 is returned
 ```
 
-##Setting computed values
+## Setting computed values
 
 Besides of `get` computed field might have `set` method as well.
 
@@ -122,7 +122,7 @@ computed: {
 
 `set` function receives the `fields` object, with same names of properties as model attributes. If `set` function changes the value of property, the change is propagated to model. Typically, you should change only one field in `set` method.
 
-##Model changes
+## Model changes
 
 In case of depended field is changed, computed field is automatically updated
 
@@ -143,7 +143,7 @@ model.set({grossPrice: 105});
 model.get('netPrice');          // -> 100 is returned
 ```
 
-##Model events
+## Model events
 
 To make views works correctly, it important to keep correct events distribution.
 
@@ -163,7 +163,7 @@ model.set({grossPrice: 80});
 
 After that call, several events are triggered - `change:grossPrice`, as a reaction of `netPrice` updated, `change:netPrice` is triggered.
 
-##Model validation
+## Model validation
 
 The same rules as for usual Backbone.js model attributes rules are applied for computed ones. If model contains `validate()` method and invalid is being set, the change would not propagate into model attributes, `error` event is triggered instead.
 
@@ -193,7 +193,7 @@ model.set({grossPrice: ''});
 
 The model is will remain in valid state, `{ netPrice: 100, vatRate: 20, grossPrice: 120 }`.
 
-##Dependency function
+## Dependency function
 
 Computed field might have dependency not only on internal model attributes, but on external objects too. For instance, the product show price depends on currency selected by user in currency widget. Besides properties names, `depends: []` can accept function, that is responsible to fire callback if change occurred.
 
@@ -210,7 +210,7 @@ computed: {
 }
 ```
 
-##JSON payload
+## JSON payload
 
 By default all computed fields are treated as part of JSON payload,
 
@@ -242,7 +242,7 @@ If you'd like to force the computed fields into the JSON payload even if the `to
 model.toJSON({ computedFields: true })
 ```
 
-##More details
+## More details
 
 Up-to-date and complete documentation is located at [/test/spec/backbone.computedfields.spec.js](https://github.com/alexanderbeletsky/backbone.computedfields/blob/master/test/spec/backbone.computedfields.spec.js).
 
