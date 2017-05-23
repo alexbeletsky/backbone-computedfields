@@ -41,7 +41,7 @@ Backbone.ComputedFields = (function(Backbone, _){
         },
 
         _bindModelEvents: function () {
-            _.each(this._computedFields, function (computedField) {
+            _.each(this._computedFields, _.bind(function (computedField) {
                 var fieldName = computedField.name;
                 var field = computedField.field;
 
@@ -70,7 +70,7 @@ Backbone.ComputedFields = (function(Backbone, _){
                 if (this._isModelInitialized()) {
                     updateComputed();
                 }
-            }, this);
+            }, this));
         },
 
         _isModelInitialized: function () {
@@ -78,7 +78,7 @@ Backbone.ComputedFields = (function(Backbone, _){
         },
 
         _thenDependentChanges: function (depends, callback) {
-            _.each(depends, function (name) {
+            _.each(depends, _.bind(function (name) {
                 if (typeof (name) === 'string') {
                     this.model.on('change:' + name, callback);
                 }
@@ -86,7 +86,7 @@ Backbone.ComputedFields = (function(Backbone, _){
                 if (typeof (name) === 'function') {
                     name.call(this.model, callback);
                 }
-            }, this);
+            }, this));
         },
 
         _thenComputedChanges: function (fieldName, callback) {
@@ -107,7 +107,7 @@ Backbone.ComputedFields = (function(Backbone, _){
                     memo.push(computed.name);
                 }
                 return memo;
-            },[]);
+            }, []);
 
             return _.omit(attributes, stripped);
         },
@@ -120,12 +120,12 @@ Backbone.ComputedFields = (function(Backbone, _){
         },
 
         _dependentFields: function (depends) {
-            return _.reduce(depends, function (memo, field) {
+            return _.reduce(depends, _.bind(function (memo, field) {
                 if (_.isString(field)) {
                     memo[field] = this.model.get(field);
                 }
                 return memo;
-            }, {}, this);
+            }, this), {});
         }
 
     });
